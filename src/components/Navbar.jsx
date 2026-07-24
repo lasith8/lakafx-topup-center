@@ -4,12 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 
 const navLinks = [
-  { name: 'Home', href: '#home' },
-  { name: 'Services', href: '#services' },
-  { name: 'Top Up', href: '#topup' },
-  { name: 'About', href: '#about' },
-  { name: 'Contact', href: '#contact' },
-]
+  { name: "Home", href: "#home" },
+  { name: "Diamonds", href: "#topup" },
+  { name: "Membership", href: "#membership" },
+  { name: "About", href: "#about" },
+  { name: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -45,15 +45,24 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" onClick={() => scrollToSection('#home')} className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-xl flex items-center justify-center shadow-neon-blue group-hover:shadow-neon-blue/60 transition-all duration-300">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-display font-bold text-xl tracking-wider">
-              <span className="text-neon-blue">LAKA</span>
-              <span className="text-white">FX</span>
-            </span>
-          </a>
+          <a
+  href="#home"
+  onClick={() => scrollToSection('#home')}
+  className="flex items-center gap-3 group"
+>
+  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-500 via-orange-500 to-yellow-400 flex items-center justify-center shadow-lg">
+    <Zap className="w-7 h-7 text-white" />
+  </div>
+
+  <div>
+    <h1 className="text-white font-bold text-lg leading-none">
+      LAKAFX
+    </h1>
+    <p className="text-yellow-400 text-xs tracking-[3px] uppercase">
+      TOP UP CENTER
+    </p>
+  </div>
+</a>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
