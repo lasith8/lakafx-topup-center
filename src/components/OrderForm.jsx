@@ -175,10 +175,10 @@ const OrderForm = () => {
             <span className="text-orange-300 text-sm font-medium">Free Fire Top Up</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 mb-4">
-            PLACE YOUR ORDER
+            COMPLETE YOUR TOP UP
           </h2>
           <p className="text-orange-200/60 text-lg">
-            Select your diamond package and get instant delivery
+            Fill in your Player ID, upload the payment receipt and receive your diamonds within minutes.
           </p>
         </div>
 
@@ -282,7 +282,7 @@ const OrderForm = () => {
           <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4 space-y-2">
             <div className="flex items-center gap-2 text-orange-300 font-semibold">
               <span className="text-lg">💳</span>
-              <span>Payment Method</span>
+              <span>eZ Cash Payment</span>
             </div>
             <div className="flex items-center gap-3 pl-6">
               <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
@@ -317,7 +317,7 @@ const OrderForm = () => {
               ) : (
                 <>
                   <span className="text-lg group-hover:translate-x-1 transition-transform">⚡</span>
-                  <span>Submit Order</span>
+                  <span>SComplete Order via WhatsApp</span>
                 </>
               )}
             </div>
