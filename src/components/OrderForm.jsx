@@ -91,7 +91,17 @@ const OrderForm = () => {
       createdAt: serverTimestamp(),
     });
   };
-
+await fetch("/api/whatsapp", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    phone,
+    packageName,
+    playerId,
+  }),
+});
   const openWhatsApp = (orderData) => {
     const pkgObj = availablePackages.find((p) => p.id === orderData.package);
     const packageDisplayName = pkgObj ? pkgObj.name : orderData.package;
