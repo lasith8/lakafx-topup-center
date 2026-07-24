@@ -158,11 +158,13 @@ const TopUpCards = () => {
               )}
 
               {/* Badge */}
-              {pkg.badge && (
-                <div className="absolute top-3 right-3 bg-slate-700/80 text-slate-300 text-xs font-medium px-2 py-0.5 rounded-md">
-                  {pkg.badge}
-                </div>
-              )}
+              {pkg.discount && (
+
+<div className="absolute top-3 left-3 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
+{pkg.discount}
+</div>
+
+)}
 
               <div className="flex flex-col items-center text-center pt-2">
                 {/* Icon */}
@@ -224,7 +226,7 @@ const TopUpCards = () => {
                       : "bg-slate-700/50 text-slate-300 hover:bg-gradient-to-r hover:from-orange-500 hover:to-amber-500 hover:text-white"
                   }`}
                 >
-                  {selectedPackage === pkg.id ? "Selected ✓" : "Buy Now"}
+                  {selectedPackage === pkg.id ? "✔ Added" : "🛒 Add to Cart"}
                 </button>
               </div>
             </motion.div>
