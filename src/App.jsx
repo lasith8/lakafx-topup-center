@@ -1,3 +1,9 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
@@ -9,48 +15,48 @@ import AboutUs from "./components/AboutUs";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-
 import SpecialOfferBanner from "./components/SpecialOfferBanner";
 import FAQ from "./components/FAQ";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
-import LoadingScreen from "./components/LoadingScreen";
 
-function App() {
+function Home() {
   return (
     <>
-      <LoadingScreen />
-
-      <Navbar />
-
-      <main>
-        <Hero />
-
-        <SpecialOfferBanner />
-
-        <Services />
-
-        <TopUpCards />
-
-        <Reviews />
-
-        <OrderForm />
-
-        <PaymentCard />
-
-        <FAQ />
-
-        <AboutUs />
-
-        <Contact />
-      </main>
-
-      <Footer />
-
-      <FloatingWhatsApp />
-
       <ScrollToTop />
+      <Navbar />
+      <SpecialOfferBanner />
+      <Hero />
+      <Services />
+      <TopUpCards />
+      <Reviews />
+      <OrderForm />
+      <PaymentCard />
+      <FAQ />
+      <AboutUs />
+      <Contact />
+      <Footer />
+      <FloatingWhatsApp />
     </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
