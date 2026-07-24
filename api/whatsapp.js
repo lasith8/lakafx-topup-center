@@ -25,13 +25,8 @@ Hello!
 
 ✅ We have received your order.
 
-━━━━━━━━━━━━━━━
-
-🎮 Package : ${packageName}
-
-🆔 Player ID : ${playerId}
-
-━━━━━━━━━━━━━━━
+🎮 Package: ${packageName}
+🆔 Player ID: ${playerId}
 
 ⏳ Your order is now being processed.
 
@@ -43,9 +38,11 @@ Thank you for choosing LAKAFX ❤️`,
 
     const data = await response.json();
 
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    return res.status(500).json({
+      error: err.message,
+    });
   }
 }
