@@ -8,8 +8,6 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  where,
-  getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import {
@@ -35,9 +33,10 @@ import {
   Filter,
   ChevronDown,
   RefreshCw,
-  FileSpreadsheet,
-  FileText,
+  ArrowLeft,
+  LogOut,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Admin = () => {
   const [orders, setOrders] = useState([]);
@@ -231,22 +230,25 @@ const Admin = () => {
       <head>
         <title>Invoice - ${order.id}</title>
         <style>
-          body { font-family: Arial, sans-serif; padding: 40px; max-width: 600px; margin: 0 auto; }
-          .header { text-align: center; border-bottom: 2px solid #f97316; padding-bottom: 20px; margin-bottom: 30px; }
-          .header h1 { color: #f97316; margin: 0; }
-          .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
-          .label { font-weight: bold; color: #374151; }
-          .value { color: #6b7280; }
-          .status { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: bold; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; max-width: 600px; margin: 0 auto; background: #0f172a; color: white; }
+          .header { text-align: center; border-bottom: 3px solid #f97316; padding-bottom: 20px; margin-bottom: 30px; }
+          .header h1 { color: #f97316; margin: 0; font-size: 28px; }
+          .header p { color: #94a3b8; margin: 5px 0 0; }
+          .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #1e293b; }
+          .label { font-weight: bold; color: #cbd5e1; }
+          .value { color: #94a3b8; }
+          .status { display: inline-block; padding: 6px 16px; border-radius: 9999px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
           .status-Pending { background: #fef3c7; color: #d97706; }
           .status-Completed { background: #d1fae5; color: #059669; }
           .status-Cancelled { background: #fee2e2; color: #dc2626; }
-          .footer { margin-top: 40px; text-align: center; color: #9ca3af; font-size: 12px; }
+          .footer { margin-top: 40px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #1e293b; padding-top: 20px; }
+          .logo { font-size: 40px; margin-bottom: 10px; }
         </style>
       </head>
       <body>
         <div class="header">
-          <h1>🎮 LAKAFX TOP UP CENTER</h1>
+          <div class="logo">🎮</div>
+          <h1>LAKAFX TOP UP CENTER</h1>
           <p>Official Invoice</p>
         </div>
         <div class="detail-row">
@@ -255,7 +257,7 @@ const Admin = () => {
         </div>
         <div class="detail-row">
           <span class="label">Game</span>
-          <span class="value">${order.game}</span>
+          <span class="value">${order.game || "Free Fire"}</span>
         </div>
         <div class="detail-row">
           <span class="label">Package</span>
@@ -288,6 +290,7 @@ const Admin = () => {
         <div class="footer">
           <p>Thank you for choosing LAKAFX TOP UP CENTER!</p>
           <p>For support, contact us on WhatsApp: 0740482490</p>
+          <p style="margin-top: 10px; font-size: 10px;">This is a computer generated invoice.</p>
         </div>
       </body>
       </html>
@@ -327,8 +330,8 @@ const Admin = () => {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 text-orange-400 animate-spin" />
-          <p className="text-orange-200/60 text-sm">Loading dashboard...</p>
+          <Loader2 className="w-12 h-12 text-orange-400 animate-spin" />
+          <p className="text-orange-200/60 text-sm font-medium">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -337,23 +340,31 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-orange-500/10">
+      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-orange-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-lg shadow-lg shadow-orange-500/20">
-              🎮
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
-                LAKAFX ADMIN
-              </h1>
-              <p className="text-xs text-slate-500">Dashboard</p>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className="p-2 bg-slate-800/80 hover:bg-orange-500/20 text-slate-400 hover:text-orange-400 rounded-xl transition-all border border-slate-700 hover:border-orange-500/30"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-lg shadow-lg shadow-orange-500/20">
+                🎮
+              </div>
+              <div>
+                <h1 className="text-xl font-black bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+                  LAKAFX ADMIN
+                </h1>
+                <p className="text-xs text-slate-500 font-medium">Dashboard</p>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handleExportCSV}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-900 border border-orange-500/20 rounded-lg text-sm font-medium text-orange-300 hover:bg-orange-500/10 hover:border-orange-500/40 transition-all"
+              className="hidden sm:flex items-center gap-2 px-4 py-2.5 bg-slate-800/80 border border-orange-500/20 rounded-xl text-sm font-bold text-orange-300 hover:bg-orange-500/10 hover:border-orange-500/40 transition-all"
             >
               <Download className="w-4 h-4" />
               Export CSV
@@ -375,36 +386,41 @@ const Admin = () => {
               label: "Total Orders",
               value: stats.total,
               icon: Package,
-              color: "from-blue-500 to-cyan-400",
+              gradient: "from-blue-500 to-cyan-400",
               border: "border-blue-500/20",
+              text: "text-blue-400",
             },
             {
               label: "Pending",
               value: stats.pending,
               icon: Clock,
-              color: "from-amber-500 to-yellow-400",
+              gradient: "from-amber-500 to-yellow-400",
               border: "border-amber-500/20",
+              text: "text-amber-400",
             },
             {
               label: "Completed",
               value: stats.completed,
               icon: CheckCheck,
-              color: "from-emerald-500 to-green-400",
+              gradient: "from-emerald-500 to-green-400",
               border: "border-emerald-500/20",
+              text: "text-emerald-400",
             },
             {
               label: "Cancelled",
               value: stats.cancelled,
               icon: Ban,
-              color: "from-red-500 to-rose-400",
+              gradient: "from-red-500 to-rose-400",
               border: "border-red-500/20",
+              text: "text-red-400",
             },
             {
               label: "Revenue",
               value: `LKR ${stats.revenue.toLocaleString()}`,
               icon: DollarSign,
-              color: "from-orange-500 to-amber-400",
+              gradient: "from-orange-500 to-amber-400",
               border: "border-orange-500/20",
+              text: "text-orange-400",
             },
           ].map((stat, index) => (
             <motion.div
@@ -412,16 +428,18 @@ const Admin = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
-              className={`relative overflow-hidden bg-slate-900/60 backdrop-blur-sm border ${stat.border} rounded-xl p-4 group hover:border-opacity-50 transition-all duration-300`}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className={`relative overflow-hidden bg-slate-900/60 backdrop-blur-sm border ${stat.border} rounded-2xl p-5 group hover:shadow-lg transition-all duration-300`}
             >
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${stat.color} opacity-5 rounded-bl-full" />
-              <div className="flex items-center justify-between mb-3">
-                <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg`}>
-                  <stat.icon className="w-4 h-4 text-white" />
+              <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.gradient} opacity-5 rounded-bl-full`} />
+              <div className="flex items-center justify-between mb-4">
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
+                  <stat.icon className="w-5 h-5 text-white" />
                 </div>
+                <TrendingUp className={`w-4 h-4 ${stat.text} opacity-60`} />
               </div>
-              <p className="text-2xl font-black text-white">{stat.value}</p>
-              <p className="text-xs text-slate-400 mt-1">{stat.label}</p>
+              <p className="text-2xl font-black text-white tracking-tight">{stat.value}</p>
+              <p className="text-xs text-slate-500 mt-1 font-medium">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -431,16 +449,16 @@ const Admin = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-xl p-4 mb-6 space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4"
+          className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-2xl p-4 mb-6 space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4"
         >
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               type="text"
               placeholder="Search Player ID, Phone, Package..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-800/80 border border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition-all"
+              className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition-all"
             />
           </div>
 
@@ -450,7 +468,7 @@ const Admin = () => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none bg-slate-800/80 border border-slate-700 rounded-lg pl-9 pr-8 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/50 cursor-pointer"
+                className="appearance-none bg-slate-800/80 border border-slate-700 rounded-xl pl-9 pr-8 py-3 text-sm text-white focus:outline-none focus:border-orange-500/50 cursor-pointer"
               >
                 <option value="All">All Status</option>
                 <option value="Pending">Pending</option>
@@ -465,7 +483,7 @@ const Admin = () => {
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="appearance-none bg-slate-800/80 border border-slate-700 rounded-lg pl-9 pr-8 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500/50 cursor-pointer"
+                className="appearance-none bg-slate-800/80 border border-slate-700 rounded-xl pl-9 pr-8 py-3 text-sm text-white focus:outline-none focus:border-orange-500/50 cursor-pointer"
               >
                 <option value="All">All Time</option>
                 <option value="Today">Today</option>
@@ -481,7 +499,7 @@ const Admin = () => {
                 setStatusFilter("All");
                 setDateFilter("All");
               }}
-              className="flex items-center gap-2 px-3 py-2.5 bg-slate-800/80 border border-slate-700 rounded-lg text-sm text-slate-400 hover:text-white hover:border-slate-600 transition-all"
+              className="flex items-center gap-2 px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-slate-400 hover:text-white hover:border-slate-600 transition-all font-medium"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               Reset
@@ -494,7 +512,7 @@ const Admin = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-xl overflow-hidden"
+          className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-2xl overflow-hidden"
         >
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -517,19 +535,19 @@ const Admin = () => {
                           setSortOrder("desc");
                         }
                       }}
-                      className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-orange-400 transition-colors select-none"
+                      className="px-4 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-orange-400 transition-colors select-none"
                     >
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         {col.label}
                         {sortBy === col.key && (
                           <ChevronDown
-                            className={`w-3 h-3 transition-transform ${sortOrder === "asc" ? "rotate-180" : ""}`}
+                            className={`w-3.5 h-3.5 transition-transform ${sortOrder === "asc" ? "rotate-180" : ""}`}
                           />
                         )}
                       </div>
                     </th>
                   ))}
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  <th className="px-4 py-4 text-right text-xs font-bold text-slate-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -539,11 +557,15 @@ const Admin = () => {
                   {filteredOrders.length === 0 ? (
                     <tr>
                       <td colSpan="6" className="px-4 py-16 text-center">
-                        <div className="flex flex-col items-center gap-3">
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex flex-col items-center gap-3"
+                        >
                           <Package className="w-12 h-12 text-slate-700" />
-                          <p className="text-slate-500">No orders found</p>
+                          <p className="text-slate-500 font-medium">No orders found</p>
                           <p className="text-slate-600 text-sm">Try adjusting your filters</p>
-                        </div>
+                        </motion.div>
                       </td>
                     </tr>
                   ) : (
@@ -556,29 +578,35 @@ const Admin = () => {
                         transition={{ duration: 0.2, delay: index * 0.03 }}
                         className="border-b border-slate-800/50 hover:bg-slate-800/40 transition-colors group"
                       >
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <User className="w-3.5 h-3.5 text-slate-500" />
-                            <span className="text-sm font-medium text-slate-200">
+                        <td className="px-4 py-4">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                              <User className="w-4 h-4 text-orange-400" />
+                            </div>
+                            <span className="text-sm font-semibold text-slate-200">
                               {order.playerId}
                             </span>
                           </div>
                         </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <Package className="w-3.5 h-3.5 text-slate-500" />
+                        <td className="px-4 py-4">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                              <Package className="w-4 h-4 text-blue-400" />
+                            </div>
                             <span className="text-sm text-slate-300">{order.package}</span>
                           </div>
                         </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <Phone className="w-3.5 h-3.5 text-slate-500" />
+                        <td className="px-4 py-4">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+                              <Phone className="w-4 h-4 text-green-400" />
+                            </div>
                             <span className="text-sm text-slate-300">{order.phone}</span>
                           </div>
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-4">
                           <span
-                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ${getStatusColor(
                               order.status
                             )}`}
                           >
@@ -586,19 +614,19 @@ const Admin = () => {
                             {order.status}
                           </span>
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-4">
                           <span className="text-xs text-slate-500">
                             {new Date(order.createdAt).toLocaleDateString()}
                           </span>
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-4">
                           <div className="flex items-center justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => {
                                 setSelectedOrder(order);
                                 setShowModal(true);
                               }}
-                              className="p-1.5 bg-slate-800 hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 rounded-lg transition-colors"
+                              className="p-2 bg-slate-800 hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 rounded-lg transition-colors"
                               title="View Details"
                             >
                               <Eye className="w-3.5 h-3.5" />
@@ -608,7 +636,7 @@ const Admin = () => {
                                 <button
                                   onClick={() => handleStatusUpdate(order.id, "Completed")}
                                   disabled={actionLoading === order.id}
-                                  className="p-1.5 bg-slate-800 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-400 rounded-lg transition-colors"
+                                  className="p-2 bg-slate-800 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-400 rounded-lg transition-colors"
                                   title="Complete"
                                 >
                                   {actionLoading === order.id ? (
@@ -620,7 +648,7 @@ const Admin = () => {
                                 <button
                                   onClick={() => handleStatusUpdate(order.id, "Cancelled")}
                                   disabled={actionLoading === order.id}
-                                  className="p-1.5 bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-lg transition-colors"
+                                  className="p-2 bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-lg transition-colors"
                                   title="Cancel"
                                 >
                                   <XCircle className="w-3.5 h-3.5" />
@@ -629,7 +657,7 @@ const Admin = () => {
                             )}
                             <button
                               onClick={() => handlePrintInvoice(order)}
-                              className="p-1.5 bg-slate-800 hover:bg-orange-500/20 text-slate-400 hover:text-orange-400 rounded-lg transition-colors"
+                              className="p-2 bg-slate-800 hover:bg-orange-500/20 text-slate-400 hover:text-orange-400 rounded-lg transition-colors"
                               title="Print Invoice"
                             >
                               <Printer className="w-3.5 h-3.5" />
@@ -637,7 +665,7 @@ const Admin = () => {
                             <button
                               onClick={() => handleDelete(order.id)}
                               disabled={actionLoading === order.id}
-                              className="p-1.5 bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-lg transition-colors"
+                              className="p-2 bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-lg transition-colors"
                               title="Delete"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -654,13 +682,13 @@ const Admin = () => {
 
           {/* Table Footer */}
           <div className="px-4 py-3 border-t border-slate-800 bg-slate-950/40 flex items-center justify-between">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 font-medium">
               Showing {filteredOrders.length} of {orders.length} orders
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleExportCSV}
-                className="sm:hidden flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-300 hover:text-white transition-colors"
+                className="sm:hidden flex items-center gap-1.5 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-300 hover:text-white transition-colors font-medium"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export
@@ -677,36 +705,37 @@ const Admin = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+              className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               {/* Modal Header */}
-              <div className="sticky top-0 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+              <div className="sticky top-0 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 px-6 py-5 flex items-center justify-between rounded-t-3xl z-10">
                 <div>
-                  <h3 className="text-lg font-bold text-white">Order Details</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">{selectedOrder.id}</p>
+                  <h3 className="text-xl font-black text-white">Order Details</h3>
+                  <p className="text-xs text-slate-500 font-mono mt-0.5">{selectedOrder.id}</p>
                 </div>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+                  className="p-2 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors"
                 >
                   <X className="w-5 h-5 text-slate-400" />
                 </button>
               </div>
 
               {/* Modal Body */}
-              <div className="px-6 py-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-400">Status</span>
+              <div className="px-6 py-6 space-y-4">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-slate-400 font-medium">Status</span>
                   <span
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ${getStatusColor(
                       selectedOrder.status
                     )}`}
                   >
@@ -716,25 +745,27 @@ const Admin = () => {
                 </div>
 
                 {[
-                  { label: "Game", value: selectedOrder.game, icon: "🎮" },
+                  { label: "Game", value: selectedOrder.game || "Free Fire", icon: "🎮" },
                   { label: "Package", value: selectedOrder.package, icon: "📦" },
                   { label: "Player ID", value: selectedOrder.playerId, icon: "🆔" },
                   { label: "Phone", value: selectedOrder.phone, icon: "📱" },
                   { label: "Payment Method", value: selectedOrder.paymentMethod, icon: "💳" },
                   { label: "Payment Number", value: selectedOrder.paymentNumber, icon: "📲" },
                 ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between py-2 border-b border-slate-800/50 last:border-0">
-                    <span className="text-sm text-slate-400 flex items-center gap-2">
-                      <span>{item.icon}</span>
+                  <div key={item.label} className="flex items-center justify-between py-3 border-b border-slate-800/50 last:border-0">
+                    <span className="text-sm text-slate-400 font-medium flex items-center gap-2.5">
+                      <span className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm">
+                        {item.icon}
+                      </span>
                       {item.label}
                     </span>
-                    <span className="text-sm font-medium text-slate-200">{item.value || "N/A"}</span>
+                    <span className="text-sm font-semibold text-slate-200">{item.value || "N/A"}</span>
                   </div>
                 ))}
 
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-slate-400 flex items-center gap-2">
-                    <span>📅</span>
+                  <span className="text-sm text-slate-400 font-medium flex items-center gap-2.5">
+                    <span className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sm">📅</span>
                     Date
                   </span>
                   <span className="text-sm text-slate-300">
@@ -745,7 +776,7 @@ const Admin = () => {
                 {/* Screenshot */}
                 {selectedOrder.screenshot && (
                   <div className="pt-2">
-                    <span className="text-sm text-slate-400 flex items-center gap-2 mb-2">
+                    <span className="text-sm text-slate-400 font-medium flex items-center gap-2 mb-3">
                       <ImageIcon className="w-4 h-4" />
                       Payment Screenshot
                     </span>
@@ -758,7 +789,7 @@ const Admin = () => {
                         alt="Payment Screenshot"
                         className="w-full h-48 object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Eye className="w-8 h-8 text-white" />
                       </div>
                     </div>
@@ -767,7 +798,7 @@ const Admin = () => {
               </div>
 
               {/* Modal Footer */}
-              <div className="sticky bottom-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800 px-6 py-4 flex items-center gap-2 rounded-b-2xl">
+              <div className="sticky bottom-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800 px-6 py-4 flex items-center gap-2 rounded-b-3xl">
                 {selectedOrder.status === "Pending" && (
                   <>
                     <button
@@ -776,7 +807,7 @@ const Admin = () => {
                         setShowModal(false);
                       }}
                       disabled={actionLoading === selectedOrder.id}
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white font-semibold rounded-lg transition-all"
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20"
                     >
                       <CheckCircle2 className="w-4 h-4" />
                       Complete
@@ -787,7 +818,7 @@ const Admin = () => {
                         setShowModal(false);
                       }}
                       disabled={actionLoading === selectedOrder.id}
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-slate-800 hover:bg-red-500/20 text-red-400 font-semibold rounded-lg border border-slate-700 hover:border-red-500/30 transition-all"
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-red-500/20 text-red-400 font-bold rounded-xl border border-slate-700 hover:border-red-500/30 transition-all"
                     >
                       <XCircle className="w-4 h-4" />
                       Cancel
@@ -796,7 +827,7 @@ const Admin = () => {
                 )}
                 <button
                   onClick={() => handlePrintInvoice(selectedOrder)}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-orange-500/20 text-orange-400 font-semibold rounded-lg border border-slate-700 hover:border-orange-500/30 transition-all"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-orange-500/20 text-orange-400 font-bold rounded-xl border border-slate-700 hover:border-orange-500/30 transition-all"
                 >
                   <Printer className="w-4 h-4" />
                 </button>
@@ -806,7 +837,7 @@ const Admin = () => {
                     setShowModal(false);
                   }}
                   disabled={actionLoading === selectedOrder.id}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-red-500/20 text-red-400 font-semibold rounded-lg border border-slate-700 hover:border-red-500/30 transition-all"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-red-500/20 text-red-400 font-bold rounded-xl border border-slate-700 hover:border-red-500/30 transition-all"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -823,7 +854,7 @@ const Admin = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
             onClick={() => setShowScreenshot(false)}
           >
             <motion.div
@@ -834,14 +865,14 @@ const Admin = () => {
             >
               <button
                 onClick={() => setShowScreenshot(false)}
-                className="absolute -top-12 right-0 p-2 bg-slate-800 rounded-lg text-white hover:bg-slate-700 transition-colors"
+                className="absolute -top-14 right-0 p-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
               <img
                 src={selectedOrder.screenshot}
                 alt="Payment Screenshot Full"
-                className="w-full rounded-xl border border-slate-700"
+                className="w-full rounded-2xl border border-slate-700 shadow-2xl"
               />
             </motion.div>
           </motion.div>
