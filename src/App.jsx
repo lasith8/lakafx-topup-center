@@ -10,13 +10,22 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
+import SpecialOfferBanner from "./components/SpecialOfferBanner";
+import FAQ from "./components/FAQ";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import LoadingScreen from "./components/LoadingScreen";
+
 function App() {
   return (
     <>
+      <LoadingScreen />
+
       <Navbar />
 
       <main>
         <Hero />
+
+        <SpecialOfferBanner />
 
         <Services />
 
@@ -28,12 +37,16 @@ function App() {
 
         <PaymentCard />
 
+        <FAQ />
+
         <AboutUs />
 
         <Contact />
       </main>
 
       <Footer />
+
+      <FloatingWhatsApp />
 
       <ScrollToTop />
     </>
