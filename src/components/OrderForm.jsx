@@ -13,7 +13,7 @@ const GAMES = [
 
 const PACKAGES = {
   "free-fire": [
-    { id: "25", name: "Diamond 25", price: "LKR 85" },
+ { id: "25", name: "Diamond 25", price: "LKR 85" },
 { id: "50", name: "Diamond 50", price: "LKR 170" },
 { id: "100", name: "Diamond 100", price: "LKR 320" },
 { id: "200", name: "Diamond 200", price: "LKR 645" },
