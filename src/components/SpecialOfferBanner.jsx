@@ -1,9 +1,20 @@
+import { motion } from "framer-motion";
+
 const SpecialOfferBanner = () => {
   return (
-    <section className="bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 py-3">
-      <div className="text-center font-bold text-white text-lg animate-pulse">
-        🎉 Special Offer • Instant Free Fire Top Up • Lowest Prices in Sri Lanka • 24/7 Support
-      </div>
+    <section className="relative overflow-hidden py-5 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600">
+      <motion.div
+        animate={{ x: ["100%", "-100%"] }}
+        transition={{
+          repeat: Infinity,
+          duration: 18,
+          ease: "linear",
+        }}
+        className="whitespace-nowrap text-white font-bold text-lg tracking-wide"
+      >
+        🔥 WEEKLY PASS OFFER • FREE FIRE TOP UP • FAST DELIVERY • 24/7 SUPPORT •
+        BEST PRICE IN SRI LANKA • SECURE PAYMENT • INSTANT DIAMONDS • 🔥
+      </motion.div>
     </section>
   );
 };
