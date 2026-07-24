@@ -20,7 +20,7 @@ const Hero = () => {
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neon-blue/10 border border-neon-blue/30 text-neon-blue text-sm font-medium mb-8">
             <Zap className="w-4 h-4" />
-            Trusted by 10,000+ Gamers Worldwide
+            🇱🇰 Sri Lanka's Trusted Free Fire Top Up Store
           </span>
         </motion.div>
 
@@ -30,9 +30,15 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
         >
-          <span className="text-white">Level Up Your</span>
-          <br />
-          <span className="neon-text">Gaming Experience</span>
+          <span className="text-white">
+FREE FIRE
+</span>
+
+<br />
+
+<span className="bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300 bg-clip-text text-transparent">
+TOP UP CENTER
+</span>
         </motion.h1>
 
         <motion.p
@@ -41,8 +47,12 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Fast, secure, and affordable top-up services for Free Fire, PUBG, Mobile Legends, and CODM. 
-          Instant delivery, 24/7 support.
+          Sri Lanka's trusted destination for Free Fire Diamonds and Memberships.
+
+✔ Instant Delivery
+✔ Secure Ez Cash Payments
+✔ Affordable Prices
+✔ 24/7 Customer Support
         </motion.p>
 
         <motion.div
@@ -57,7 +67,7 @@ const Hero = () => {
   rel="noopener noreferrer"
   className="btn-primary flex items-center gap-2 text-lg"
 >
-  Top Up Now
+  🔥 Top Up Now
   <ArrowRight className="w-5 h-5" />
 </a>
           <a
@@ -68,7 +78,7 @@ const Hero = () => {
             }}
             className="px-8 py-4 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/5 transition-all duration-300"
           >
-            View Services
+            💎 View Diamond Packages
           </a>
         </motion.div>
 
