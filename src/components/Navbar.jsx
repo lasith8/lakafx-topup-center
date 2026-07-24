@@ -76,13 +76,13 @@ const Navbar = () => {
               </button>
             ))}
             <a
-              href="https://wa.me/94740482490"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-whatsapp text-sm py-2.5 px-6"
-            >
-              Order Now
-            </a>
+  href="https://wa.me/94740482490"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-gradient-to-r from-red-600 to-orange-500 hover:from-orange-500 hover:to-red-600 text-white px-6 py-3 rounded-full font-semibold transition duration-300"
+>
+  Top Up Now
+</a>
           </div>
 
           {/* Mobile Menu Button */}
