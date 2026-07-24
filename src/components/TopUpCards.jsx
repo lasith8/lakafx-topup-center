@@ -3,87 +3,35 @@ import { motion } from "framer-motion";
 
 const FREE_FIRE_PACKAGES = [
   {
-    id: "ff-100",
-    name: "100 Diamonds",
-    price: "LKR 150",
-    popular: false,
-    icon: "💎",
-    color: "from-blue-500 to-cyan-400",
-  },
-  {
-    id: "ff-310",
-    name: "310 Diamonds",
-    price: "LKR 450",
-    popular: false,
-    icon: "💎",
-    color: "from-blue-500 to-cyan-400",
-  },
-  {
-    id: "ff-520",
-    name: "520 Diamonds",
-    price: "LKR 750",
-    popular: false,
-    icon: "💎",
-    color: "from-blue-500 to-cyan-400",
-  },
-  {
-    id: "ff-1060",
-    name: "1,060 Diamonds",
-    price: "LKR 1,500",
-    popular: true,
-    icon: "💎",
-    color: "from-orange-500 to-amber-400",
-  },
-  {
-    id: "ff-2180",
-    name: "2,180 Diamonds",
-    price: "LKR 3,000",
-    popular: false,
-    icon: "💎",
-    color: "from-purple-500 to-pink-400",
-  },
-  {
-    id: "ff-5600",
-    name: "5,600 Diamonds",
-    price: "LKR 7,500",
-    popular: false,
-    icon: "💎",
-    color: "from-purple-500 to-pink-400",
-  },
-  {
-    id: "ff-weekly",
-    name: "Weekly Pass",
-    price: "LKR 550",
-    popular: false,
-    icon: "⚡",
-    color: "from-green-500 to-emerald-400",
-    badge: "7 Days",
-  },
-  {
-    id: "ff-monthly",
-    name: "Monthly Pass",
-    price: "LKR 1,850",
-    popular: true,
-    icon: "🔥",
-    color: "from-orange-500 to-red-500",
-    badge: "30 Days",
-  },
-  {
-    id: "ff-levelup",
-    name: "Level Up Pass",
-    price: "LKR 950",
-    popular: false,
-    icon: "🚀",
-    color: "from-indigo-500 to-violet-400",
-  },
-  {
-    id: "ff-booyah",
-    name: "Booyah Pass",
-    price: "LKR 1,200",
-    popular: false,
-    icon: "🏆",
-    color: "from-yellow-500 to-amber-500",
-  },
+  id: "25",
+  name: "Diamond 25",
+  price: "LKR 85",
+  oldPrice: "",
+  discount: "",
+  popular: false,
+  icon: "💎",
+  color: "from-cyan-500 to-blue-500",
+},
+{
+  id: "50",
+  name: "Diamond 50",
+  price: "LKR 170",
+  oldPrice: "LKR 175",
+  discount: "LKR 5 OFF",
+  popular: false,
+  icon: "💎",
+  color: "from-cyan-500 to-blue-500",
+},
+{
+  id: "100",
+  name: "Diamond 100",
+  price: "LKR 320",
+  oldPrice: "LKR 340",
+  discount: "LKR 20 OFF",
+  popular: true,
+  icon: "💎",
+  color: "from-orange-500 to-red-500",
+},
 ];
 
 const containerVariants = {
@@ -228,9 +176,29 @@ const TopUpCards = () => {
                 </h4>
 
                 {/* Price */}
-                <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 mb-4">
-                  {pkg.price}
-                </div>
+                <div className="mb-4">
+
+{pkg.discount && (
+
+<div className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded mb-2">
+{pkg.discount}
+</div>
+
+)}
+
+<div className="text-2xl font-bold text-yellow-400">
+{pkg.price}
+</div>
+
+{pkg.oldPrice && (
+
+<div className="text-gray-500 line-through text-sm">
+{pkg.oldPrice}
+</div>
+
+)}
+
+</div>
 
                 {/* Features */}
                 <div className="w-full space-y-2 mb-5">
