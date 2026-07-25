@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Gamepad2,
   Package,
   User,
   Phone,
@@ -14,6 +13,7 @@ import {
   Shield,
   Zap,
   Clock,
+  Mail,
 } from "lucide-react";
 import UploadScreenshot from "./UploadScreenshot";
 import { db } from "../firebase";
@@ -22,6 +22,7 @@ import {
   addDoc,
   serverTimestamp
 } from "firebase/firestore";
+import emailjs from "@emailjs/browser";
 
 const GAMES = [
   { id: "free-fire", name: "Free Fire" },
@@ -55,6 +56,12 @@ const PACKAGES = {
 const PAYMENT_METHOD = "eZ Cash";
 const PAYMENT_NUMBER = "0740482490";
 const WHATSAPP_NUMBER = "94740482490";
+
+// EmailJS Config - Your credentials
+const EMAILJS_SERVICE_ID = "service_aveg4hh";
+const EMAILJS_TEMPLATE_ID = "template_pk97xpi";
+const EMAILJS_PUBLIC_KEY = "fX-P9QA-IdRLaAGIB";
+const ADMIN_EMAIL = "lasithdulshan62@gmail.com";
 
 const OrderForm = () => {
   const [game, setGame] = useState("free-fire");
@@ -111,6 +118,28 @@ const OrderForm = () => {
     });
   };
 
+  const sendEmailNotification = async (orderData) => {
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          to_email: ADMIN_EMAIL,
+          game: orderData.game,
+          package: orderData.package,
+          player_id: orderData.playerId,
+          phone: orderData.phone,
+          payment_method: orderData.paymentMethod,
+          payment_number: orderData.paymentNumber,
+          screenshot: orderData.screenshot,
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+    } catch (err) {
+      console.error("Email notification failed:", err);
+    }
+  };
+
   const openWhatsApp = (orderData) => {
     const pkgObj = availablePackages.find((p) => p.id === orderData.package);
     const packageDisplayName = pkgObj ? `${pkgObj.name} — ${pkgObj.price}` : orderData.package;
@@ -163,10 +192,15 @@ const OrderForm = () => {
         screenshot: screenshot,
       };
 
+      // Save to Firestore
       await saveOrderToFirestore(orderData);
 
-      showAlert("success", "Order placed successfully! Opening WhatsApp...");
+      // Send email notification to admin
+      await sendEmailNotification(orderData);
 
+      showAlert("success", "Order placed! Confirmation email sent to admin.");
+
+      // Open WhatsApp for customer
       setTimeout(() => {
         openWhatsApp({
           package: packageName,
@@ -174,7 +208,7 @@ const OrderForm = () => {
           phone: phone.trim(),
           screenshot: screenshot,
         });
-      }, 1000);
+      }, 1500);
 
       resetForm();
     } catch (err) {
@@ -187,13 +221,11 @@ const OrderForm = () => {
 
   return (
     <section id="order" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-slate-950">
-      {/* Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-orange-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-yellow-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-2xl mx-auto relative z-10">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -221,7 +253,6 @@ const OrderForm = () => {
           </p>
         </motion.div>
 
-        {/* Alert Messages */}
         <AnimatePresence>
           {alert.message && (
             <motion.div
@@ -245,7 +276,6 @@ const OrderForm = () => {
           )}
         </AnimatePresence>
 
-        {/* Order Form */}
         <motion.form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 20 }}
@@ -254,7 +284,6 @@ const OrderForm = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6 shadow-2xl shadow-orange-500/5"
         >
-          {/* Game Card */}
           <motion.div
             whileHover={{ scale: 1.01 }}
             className="bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 border border-orange-500/20 rounded-2xl p-5 flex items-center gap-4 relative overflow-hidden group"
@@ -277,7 +306,6 @@ const OrderForm = () => {
             </div>
           </motion.div>
 
-          {/* Package Selection */}
           <div>
             <label className="flex items-center gap-2 text-sm font-bold text-orange-400 mb-4 uppercase tracking-wider">
               <Package className="w-4 h-4" />
@@ -336,7 +364,6 @@ const OrderForm = () => {
             </div>
           </div>
 
-          {/* Player ID */}
           <div>
             <label className="flex items-center gap-2 text-sm font-bold text-orange-400 mb-3 uppercase tracking-wider">
               <User className="w-4 h-4" />
@@ -354,7 +381,6 @@ const OrderForm = () => {
             </div>
           </div>
 
-          {/* Phone Number */}
           <div>
             <label className="flex items-center gap-2 text-sm font-bold text-orange-400 mb-3 uppercase tracking-wider">
               <Phone className="w-4 h-4" />
@@ -372,7 +398,6 @@ const OrderForm = () => {
             </div>
           </div>
 
-          {/* Payment Info */}
           <motion.div
             whileHover={{ scale: 1.01 }}
             className="bg-gradient-to-r from-green-500/5 to-emerald-500/5 border border-green-500/15 rounded-xl p-5 space-y-3 relative overflow-hidden"
@@ -394,13 +419,11 @@ const OrderForm = () => {
             </div>
           </motion.div>
 
-          {/* Screenshot Upload */}
           <UploadScreenshot
             onUpload={handleUpload}
             onRemove={handleRemove}
           />
 
-          {/* Submit Button */}
           <motion.button
             type="submit"
             disabled={isSubmitting}
@@ -416,7 +439,7 @@ const OrderForm = () => {
                 </>
               ) : (
                 <>
-                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <Mail className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   <span>Complete Order via WhatsApp</span>
                 </>
               )}
@@ -424,7 +447,6 @@ const OrderForm = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
           </motion.button>
 
-          {/* Trust Badges */}
           <div className="flex items-center justify-center gap-6 pt-2">
             {[
               { icon: Shield, text: "Secure" },
