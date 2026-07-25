@@ -18,10 +18,12 @@ import ScrollToTop from "./components/ScrollToTop";
 import SpecialOfferBanner from "./components/SpecialOfferBanner";
 import FAQ from "./components/FAQ";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import Preloader from "./components/Preloader";
 
 function Home() {
   return (
     <>
+      <Preloader />
       <ScrollToTop />
       <Navbar />
       <SpecialOfferBanner />
