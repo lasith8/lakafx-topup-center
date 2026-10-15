@@ -15,39 +15,33 @@ export default function Login() {
 
     try {
       setLoading(true);
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
+      await signInWithEmailAndPassword(auth, email, password);
       navigate("/admin");
-
     } catch (err) {
       alert("Invalid Email or Password");
     }
-
     setLoading(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950">
-
       <form
         onSubmit={login}
         className="bg-slate-900 w-[400px] rounded-2xl border border-orange-500/20 p-8 shadow-2xl"
       >
-
         <h1 className="text-3xl font-bold text-center text-orange-400 mb-2">
           LAKAFX
         </h1>
-
         <p className="text-slate-400 text-center mb-8">
           Admin Dashboard Login
         </p>
 
+        {/* අලුතින් එකතු කළ Email Label සහ Attributes */}
+        <label htmlFor="adminEmail" className="sr-only">Admin Email</label>
         <input
+          id="adminEmail"
+          name="email"
+          autoComplete="email"
           type="email"
           placeholder="Admin Email"
           value={email}
@@ -55,7 +49,12 @@ export default function Login() {
           className="w-full mb-4 p-3 rounded-lg bg-slate-800 text-white outline-none border border-slate-700 focus:border-orange-400"
         />
 
+        {/* අලුතින් එකතු කළ Password Label සහ Attributes */}
+        <label htmlFor="adminPassword" className="sr-only">Password</label>
         <input
+          id="adminPassword"
+          name="password"
+          autoComplete="current-password"
           type="password"
           placeholder="Password"
           value={password}
@@ -64,13 +63,13 @@ export default function Login() {
         />
 
         <button
-          className="w-full py-3 rounded-lg bg-orange-500 hover:bg-orange-600 font-bold text-white transition"
+          type="submit"
+          disabled={loading}
+          className="w-full py-3 rounded-lg bg-orange-500 hover:bg-orange-600 font-bold text-white transition disabled:opacity-50"
         >
           {loading ? "Logging in..." : "LOGIN"}
         </button>
-
       </form>
-
     </div>
   );
 }
