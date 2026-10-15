@@ -17,11 +17,11 @@ export default function PlayerCheck() {
         setPlayerData(null);
 
         try {
-            // allorigins proxy එක භාවිතයෙන්
-            const targetUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
-            const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+            // Vercel Rewrite Proxy එක හරහා Chamindu API එකට කතා කිරීම
+            const response = await fetch(`/api/chamindu/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
             const result = await response.json();
 
+            // API එකෙන් status: true ආවොත් data ටික ගන්නවා
             if (result.status === true && result.data) {
                 setPlayerData(result.data);
             } else {
@@ -60,8 +60,10 @@ export default function PlayerCheck() {
                 </button>
             </div>
 
+            {/* Error Message */}
             {error && <p className="text-red-400 mt-3 text-sm font-medium">⚠️ {error}</p>}
 
+            {/* Success Message (Player Profile Card) */}
             {playerData && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-[#fbbf24]/30 rounded-lg flex items-center gap-4 animate-fade-up">
                     {playerData.assets?.avatar?.cdnUrl && (
@@ -71,6 +73,7 @@ export default function PlayerCheck() {
                             className="w-16 h-16 rounded-md border-2 border-[#fbbf24]" 
                         />
                     )}
+                    
                     <div>
                         <h3 className="text-[#fbbf24] font-black text-xl tracking-wide">
                             {playerData.nickname}

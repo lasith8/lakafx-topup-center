@@ -43,9 +43,8 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
     setApiResponse(null)
 
     try {
-      // allorigins proxy එක භාවිතයෙන්
-      const targetUrl = `https://free-ff-api-src-5plp.onrender.com/api/v1/account?region=${region}&uid=${uid.trim()}`;
-      const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`, {
+      // Vercel Rewrite Proxy එක හරහා Render API එකට කතා කිරීම
+      const response = await fetch(`/api/render/account?region=${region}&uid=${uid.trim()}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

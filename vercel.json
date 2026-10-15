@@ -1,16 +1,12 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
+      "source": "/api/chamindu/:path*",
+      "destination": "https://api.chamindu.site/api/v1/freefire/:path*"
+    },
+    {
+      "source": "/api/render/:path*",
+      "destination": "https://free-ff-api-src-5plp.onrender.com/api/v1/:path*"
     }
   ]
 }
