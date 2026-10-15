@@ -113,7 +113,7 @@ const OrderForm = () => {
         playerId: formData.playerId,
         phone: formData.phone,
         paymentMethod: 'eZ Cash',
-        paymentNumber: '0740482490', // මෙතන ඔයාගේ අලුත් නම්බර් එක (0750672056) දාන්න ඕනෙනම් වෙනස් කරන්න
+        paymentNumber: '0740482490',
         screenshot: screenshotUrl,
         status: 'Pending',
         playerVerified: formData.playerVerified,
@@ -273,4 +273,101 @@ const OrderForm = () => {
             </div>
           )}
 
-          {formData.playerVerified &&
+          {formData.playerVerified && formData.verifiedPlayerData && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-3 p-4 bg-neon-green/10 border border-neon-green/30 rounded-xl"
+            >
+              <CheckCircle className="w-5 h-5 text-neon-green flex-shrink-0" />
+              <div>
+                <p className="text-neon-green font-medium text-sm">Player Verified: {formData.verifiedPlayerData.nickname}</p>
+                <p className="text-gray-400 text-xs">Level {formData.verifiedPlayerData.level} {formData.verifiedPlayerData.region}</p>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Package Selection */}
+          <div>
+            <label htmlFor="packageSelect" className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+              <Package className="w-4 h-4 text-neon-purple" />
+              Select Package
+            </label>
+            <select
+              id="packageSelect"
+              name="package"
+              autoComplete="off"
+              value={formData.package}
+              onChange={handleInputChange}
+              disabled={!formData.game}
+              className="input-field disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">Choose a package...</option>
+              {formData.game && packages[formData.game]?.map((pkg) => (
+                <option key={pkg} value={pkg}>
+                  {pkg}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Phone Number */}
+          <div>
+            <label htmlFor="phoneNumber" className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+              <Phone className="w-4 h-4 text-neon-green" />
+              Phone Number
+            </label>
+            <input
+              id="phoneNumber"
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              value={formData.phone}
+              onChange={handleInputChange}
+              placeholder="07X XXX XXXX"
+              className="input-field"
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+              <CreditCard className="w-4 h-4 text-neon-cyan" />
+              Payment Screenshot
+            </label>
+            <UploadScreenshot
+              onImageUpload={handleImageUpload}
+              uploadedImage={uploadedImage}
+              onRemoveImage={handleRemoveImage}
+              isUploading={isUploading}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                >
+                  <Send className="w-5 h-5" />
+                </motion.div>
+                Processing...
+              </>
+            ) : (
+              <>
+                <Send className="w-5 h-5" />
+                Submit Order
+              </>
+            )}
+          </button>
+        </motion.form>
+      </div>
+    </section>
+  )
+}
+
+export default OrderForm
