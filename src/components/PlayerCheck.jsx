@@ -16,12 +16,14 @@ export default function PlayerCheck() {
         setError(null);
         setPlayerData(null);
 
-       try {
-            // UID එක හරියට URL එකට යන විදිහට Template literal එක හදාගැනීම
-            const response = await fetch(`/proxy/chamindu/stalk?uid=${encodeURIComponent(playerId)}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
+        try {
+            // මෙතන අපි Allorigins හෝ වෙනත් පබ්ලික් Proxy එකක් කෙලින්ම පාවිච්චි කරමු (Vercel ගැටළු මඟහරින්න)
+            const apiUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId.trim()}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+            
+            const response = await fetch(proxyUrl);
             const result = await response.json();
 
-            // API එකෙන් status: true ආවොත් හෝ data තිබුණොත්
             if (result && (result.status === true || result.data)) {
                 setPlayerData(result.data || result);
             } else {
@@ -60,10 +62,8 @@ export default function PlayerCheck() {
                 </button>
             </div>
 
-            {/* Error Message */}
             {error && <p className="text-red-400 mt-3 text-sm font-medium">⚠️ {error}</p>}
 
-            {/* Success Message (Player Profile Card) */}
             {playerData && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-[#fbbf24]/30 rounded-lg flex items-center gap-4 animate-fade-up">
                     {playerData.assets?.avatar?.cdnUrl && (

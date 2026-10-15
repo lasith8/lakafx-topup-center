@@ -2,29 +2,11 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, CheckCircle, XCircle, Loader2, User, Trophy, Gamepad2, AlertTriangle } from 'lucide-react'
 
-const regions = [
-  { code: 'SG', name: 'Singapore (Sri Lanka)' },
-  { code: 'IND', name: 'India' },
-  { code: 'BR', name: 'Brazil' },
-  { code: 'ID', name: 'Indonesia' },
-  { code: 'US', name: 'USA' },
-  { code: 'VN', name: 'Vietnam' },
-  { code: 'TH', name: 'Thailand' },
-  { code: 'ME', name: 'Middle East' },
-  { code: 'PK', name: 'Pakistan' },
-  { code: 'CIS', name: 'CIS' },
-  { code: 'BD', name: 'Bangladesh' },
-  { code: 'RU', name: 'Russia' },
-  { code: 'TW', name: 'Taiwan' },
-]
-
 const PlayerVerifier = ({ onVerifiedPlayer }) => {
-  const [region, setRegion] = useState('SG')
   const [uid, setUid] = useState('')
   const [loading, setLoading] = useState(false)
   const [playerData, setPlayerData] = useState(null)
   const [error, setError] = useState('')
-  const [apiResponse, setApiResponse] = useState(null)
 
   const verifyPlayer = async () => {
     if (!uid.trim()) {
@@ -40,49 +22,28 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
     setLoading(true)
     setError('')
     setPlayerData(null)
-    setApiResponse(null)
 
     try {
-      // Vercel Rewrite Proxy එක හරහා Render API එකට කතා කිරීම
-      const response = await fetch(`/proxy/render/account?region=${region}&uid=${uid.trim()}`, {
-  method: 'GET',
-  headers: {
-    'Accept': 'application/json',
-  },
-})
+      const apiUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${uid.trim()}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
       
-      let data
-      try {
-        data = await response.json()
-      } catch (parseError) {
-        setError('Invalid response from server. Please try again later.')
-        setLoading(false)
-        return
-      }
-      
-      setApiResponse(data)
+      const response = await fetch(proxyUrl)
+      const result = await response.json()
 
-      if (data.error) {
-        setError(data.message || 'Player not found. Please check the ID and region.')
-        setLoading(false)
-        return
-      }
-
-      if (!data.basicInfo || !data.basicInfo.accountId) {
-        setError('Player not found. Please check the ID and region.')
-        setLoading(false)
-        return
-      }
-
-      setPlayerData(data)
-      
-      if (onVerifiedPlayer) {
-        onVerifiedPlayer({
-          uid: uid.trim(),
-          region,
-          nickname: data.basicInfo?.nickname || 'Unknown',
-          level: data.basicInfo?.level || 0,
-        })
+      if (result && (result.status === true || result.data)) {
+        const data = result.data || result;
+        setPlayerData(data)
+        
+        if (onVerifiedPlayer) {
+          onVerifiedPlayer({
+            uid: uid.trim(),
+            region: 'SG',
+            nickname: data.nickname || 'Unknown',
+            level: data.basic?.level || 0,
+          })
+        }
+      } else {
+        setError(result.detail || 'Player not found. Please check the ID.')
       }
     } catch (err) {
       setError('Network error. Please check your internet connection and try again.')
@@ -100,22 +61,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
-        <label htmlFor="regionSelect" className="sr-only">Select Region</label>
-        <select
-          id="regionSelect"
-          name="region"
-          autoComplete="off"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-          className="input-field sm:w-48"
-        >
-          {regions.map((r) => (
-            <option key={r.code} value={r.code}>
-              {r.code} - {r.name}
-            </option>
-          ))}
-        </select>
-        
         <div className="flex-1 relative">
           <label htmlFor="uidInput" className="sr-only">Player ID</label>
           <input
@@ -154,16 +99,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         </button>
       </div>
 
-      {!playerData && !error && !loading && (
-        <div className="flex items-start gap-2 p-3 bg-neon-blue/5 border border-neon-blue/20 rounded-xl">
-          <AlertTriangle className="w-4 h-4 text-neon-blue flex-shrink-0 mt-0.5" />
-          <p className="text-gray-400 text-xs">
-            Tip: Your Player ID is a number found in your Free Fire profile. 
-            For Sri Lanka, try <span className="text-neon-blue">SG (Singapore)</span> or <span className="text-neon-blue">IND (India)</span> region.
-          </p>
-        </div>
-      )}
-
       <AnimatePresence>
         {error && (
           <motion.div
@@ -181,7 +116,7 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {playerData && playerData.basicInfo && (
+        {playerData && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -197,26 +132,20 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
               <div className="bg-white/5 rounded-xl p-4 text-center">
                 <User className="w-6 h-6 text-neon-blue mx-auto mb-2" />
                 <p className="text-gray-400 text-xs mb-1">Nickname</p>
-                <p className="text-white font-semibold text-sm truncate">{playerData.basicInfo?.nickname || 'N/A'}</p>
+                <p className="text-white font-semibold text-sm truncate">{playerData.nickname || 'N/A'}</p>
               </div>
               
               <div className="bg-white/5 rounded-xl p-4 text-center">
                 <Trophy className="w-6 h-6 text-neon-purple mx-auto mb-2" />
                 <p className="text-gray-400 text-xs mb-1">Level</p>
-                <p className="text-white font-semibold text-lg">{playerData.basicInfo?.level || 'N/A'}</p>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-4 text-center">
-                <Gamepad2 className="w-6 h-6 text-neon-pink mx-auto mb-2" />
-                <p className="text-gray-400 text-xs mb-1">Rank</p>
-                <p className="text-white font-semibold text-lg">{playerData.basicInfo?.rank || 'N/A'}</p>
+                <p className="text-white font-semibold text-lg">{playerData.basic?.level || 'N/A'}</p>
               </div>
               
               <div className="bg-white/5 rounded-xl p-4 text-center">
                 <User className="w-6 h-6 text-neon-cyan mx-auto mb-2" />
                 <p className="text-gray-400 text-xs mb-1">Likes</p>
                 <p className="text-white font-semibold text-lg">
-                  {playerData.basicInfo?.liked?.toLocaleString() || 'N/A'}
+                  {playerData.basic?.liked?.toLocaleString() || 'N/A'}
                 </p>
               </div>
             </div>
