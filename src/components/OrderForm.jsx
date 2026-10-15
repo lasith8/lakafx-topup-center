@@ -113,7 +113,7 @@ const OrderForm = () => {
         playerId: formData.playerId,
         phone: formData.phone,
         paymentMethod: 'eZ Cash',
-        paymentNumber: '0740482490',
+        paymentNumber: '0740482490', // මෙතන ඔයාගේ අලුත් නම්බර් එක (0750672056) දාන්න ඕනෙනම් වෙනස් කරන්න
         screenshot: screenshotUrl,
         status: 'Pending',
         playerVerified: formData.playerVerified,
@@ -220,13 +220,16 @@ const OrderForm = () => {
             </motion.div>
           )}
 
+          {/* Game Selection */}
           <div>
-            <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+            <label htmlFor="gameSelect" className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
               <Gamepad2 className="w-4 h-4 text-neon-blue" />
               Select Game
             </label>
             <select
+              id="gameSelect"
               name="game"
+              autoComplete="off"
               value={formData.game}
               onChange={handleInputChange}
               className="input-field"
@@ -250,15 +253,18 @@ const OrderForm = () => {
             </div>
           )}
 
+          {/* Player ID (if not verified through the component) */}
           {!showVerifier && (
             <div>
-              <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+              <label htmlFor="playerIdInput" className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
                 <User className="w-4 h-4 text-neon-pink" />
                 Player ID
               </label>
               <input
+                id="playerIdInput"
                 type="text"
                 name="playerId"
+                autoComplete="off"
                 value={formData.playerId}
                 onChange={handleInputChange}
                 placeholder="Enter your game Player ID"
@@ -267,95 +273,4 @@ const OrderForm = () => {
             </div>
           )}
 
-          {formData.playerVerified && formData.verifiedPlayerData && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-neon-green/10 border border-neon-green/30 rounded-xl"
-            >
-              <CheckCircle className="w-5 h-5 text-neon-green flex-shrink-0" />
-              <div>
-                <p className="text-neon-green font-medium text-sm">Player Verified: {formData.verifiedPlayerData.nickname}</p>
-                <p className="text-gray-400 text-xs">Level {formData.verifiedPlayerData.level} • {formData.verifiedPlayerData.region}</p>
-              </div>
-            </motion.div>
-          )}
-
-          <div>
-            <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
-              <Package className="w-4 h-4 text-neon-purple" />
-              Select Package
-            </label>
-            <select
-              name="package"
-              value={formData.package}
-              onChange={handleInputChange}
-              disabled={!formData.game}
-              className="input-field disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option value="">Choose a package...</option>
-              {formData.game && packages[formData.game]?.map((pkg) => (
-                <option key={pkg} value={pkg}>
-                  {pkg}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
-              <Phone className="w-4 h-4 text-neon-green" />
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              placeholder="07X XXX XXXX"
-              className="input-field"
-            />
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
-              <CreditCard className="w-4 h-4 text-neon-cyan" />
-              Payment Screenshot
-            </label>
-            <UploadScreenshot
-              onImageUpload={handleImageUpload}
-              uploadedImage={uploadedImage}
-              onRemoveImage={handleRemoveImage}
-              isUploading={isUploading}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              <>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                >
-                  <Send className="w-5 h-5" />
-                </motion.div>
-                Processing...
-              </>
-            ) : (
-              <>
-                <Send className="w-5 h-5" />
-                Submit Order
-              </>
-            )}
-          </button>
-        </motion.form>
-      </div>
-    </section>
-  )
-}
-
-export default OrderForm
+          {formData.playerVerified &&
