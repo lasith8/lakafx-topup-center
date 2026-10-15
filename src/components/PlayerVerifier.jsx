@@ -44,15 +44,14 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
     setApiResponse(null)
 
     try {
-      const response = await fetch(
-        `https://free-ff-api-src-5plp.onrender.com/api/v1/account?region=${region}&uid=${uid.trim()}`,
-        {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-        }
-      )
+      // කෙලින්ම API එකට යන්නේ නැතුව allorigins proxy එක හරහා යැවීම
+      const targetUrl = `https://free-ff-api-src-5plp.onrender.com/api/v1/account?region=${region}&uid=${uid.trim()}`;
+      const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      })
       
       // Log the raw response for debugging
       console.log('API Response Status:', response.status)

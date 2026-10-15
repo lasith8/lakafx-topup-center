@@ -16,10 +16,10 @@ export default function PlayerCheck() {
         setError(null);
         setPlayerData(null);
 
-        try {
-            // CORS Error එක මගහරින්න Proxy එකක් හරහා API එකට කතා කිරීම
+       try {
+            // මෙතනත් allorigins proxy එක පාවිච්චි කිරීම
             const targetUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
-            const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(targetUrl)}`);
+            const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
             const result = await response.json();
 
             // API එකෙන් status: true ආවොත් data ටික ගන්නවා
