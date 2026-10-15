@@ -24,6 +24,7 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
     setPlayerData(null)
 
     try {
+      // උඩ එකට වැඩ කරපු Allorigins සහ Chamindu API ක්‍රමයම මෙතැනටත් පාවිච්චි කරමු
       const apiUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${uid.trim()}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
       const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
       
