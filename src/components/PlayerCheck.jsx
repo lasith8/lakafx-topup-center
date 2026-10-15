@@ -17,11 +17,9 @@ export default function PlayerCheck() {
         setPlayerData(null);
 
         try {
-            // Chamindu API එකට සම්බන්ධ කරන නිවැරදි ලින්ක් එක
             const response = await fetch(`https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
             const result = await response.json();
 
-            // API එකෙන් status: true ආවොත් data ටික ගන්නවා
             if (result.status === true && result.data) {
                 setPlayerData(result.data);
             } else {
@@ -36,9 +34,16 @@ export default function PlayerCheck() {
 
     return (
         <div className="bg-slate-800 p-5 rounded-lg border border-slate-700 mb-6 shadow-lg">
-            <label className="block text-slate-300 font-bold mb-2">Player ID එක ඇතුලත් කරන්න</label>
+            {/* 1. Label එකට htmlFor එකතු කළා */}
+            <label htmlFor="playerIdInput" className="block text-slate-300 font-bold mb-2">
+                Player ID එක ඇතුලත් කරන්න
+            </label>
+            
             <div className="flex gap-2">
+                {/* 2. Input එකට id සහ name එකතු කළා */}
                 <input 
+                    id="playerIdInput"
+                    name="player_id"
                     type="number" 
                     value={playerId}
                     onChange={(e) => setPlayerId(e.target.value)}
@@ -54,13 +59,10 @@ export default function PlayerCheck() {
                 </button>
             </div>
 
-            {/* Error Message */}
             {error && <p className="text-red-400 mt-3 text-sm font-medium">⚠️ {error}</p>}
 
-            {/* Success Message (Player Profile Card) */}
             {playerData && (
                 <div className="mt-4 p-4 bg-slate-900/80 border border-[#fbbf24]/30 rounded-lg flex items-center gap-4 animate-fade-up">
-                    {/* Avatar Image */}
                     {playerData.assets?.avatar?.cdnUrl && (
                         <img 
                             src={playerData.assets.avatar.cdnUrl} 
@@ -68,8 +70,6 @@ export default function PlayerCheck() {
                             className="w-16 h-16 rounded-md border-2 border-[#fbbf24]" 
                         />
                     )}
-                    
-                    {/* Player Details */}
                     <div>
                         <h3 className="text-[#fbbf24] font-black text-xl tracking-wide">
                             {playerData.nickname}
