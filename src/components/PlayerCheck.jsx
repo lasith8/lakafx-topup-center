@@ -18,7 +18,9 @@ export default function PlayerCheck() {
 
         try {
             // Vercel Rewrite Proxy එක හරහා Chamindu API එකට කතා කිරීම
-            const response = await fetch(`/api/chamindu/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
+            // පරණ එක: fetch(`/api/chamindu/stalk?...`)
+// අලුත් එක:
+const response = await fetch(`/proxy/chamindu/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
             const result = await response.json();
 
             // API එකෙන් status: true ආවොත් data ටික ගන්නවා

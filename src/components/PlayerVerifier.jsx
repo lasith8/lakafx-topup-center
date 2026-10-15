@@ -44,12 +44,12 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
 
     try {
       // Vercel Rewrite Proxy එක හරහා Render API එකට කතා කිරීම
-      const response = await fetch(`/api/render/account?region=${region}&uid=${uid.trim()}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-      })
+      const response = await fetch(`/proxy/render/account?region=${region}&uid=${uid.trim()}`, {
+  method: 'GET',
+  headers: {
+    'Accept': 'application/json',
+  },
+})
       
       let data
       try {

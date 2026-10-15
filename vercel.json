@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/api/chamindu/:path*",
+      "source": "/proxy/chamindu/:path*",
       "destination": "https://api.chamindu.site/api/v1/freefire/:path*"
     },
     {
-      "source": "/api/render/:path*",
+      "source": "/proxy/render/:path*",
       "destination": "https://free-ff-api-src-5plp.onrender.com/api/v1/:path*"
     },
     {
