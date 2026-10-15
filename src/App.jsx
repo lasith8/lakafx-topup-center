@@ -20,6 +20,9 @@ import FAQ from "./components/FAQ";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import Preloader from "./components/Preloader";
 
+// අලුතින් එකතු කළ PlayerCheck Component එක
+import PlayerCheck from "./components/PlayerCheck";
+
 function Home() {
   return (
     <>
@@ -31,6 +34,10 @@ function Home() {
       <Services />
       <TopUpCards />
       <Reviews />
+      
+      {/* Order එක දාන්න කලින් ID එක Check කරන කොටස මෙතනට දැම්මා */}
+      <PlayerCheck />
+      
       <OrderForm />
       <PaymentCard />
       <FAQ />
