@@ -17,8 +17,8 @@ export default function PlayerCheck() {
         setPlayerData(null);
 
         try {
-            const response = await fetch(`https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
-            const result = await response.json();
+            const targetUrl = `https://api.chamindu.site/api/v1/freefire/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`;
+const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(targetUrl)}`);
 
             if (result.status === true && result.data) {
                 setPlayerData(result.data);
