@@ -115,7 +115,7 @@ const Contact = () => {
             
             <div className="space-y-4 w-full max-w-sm">
               <a
-                href="https://wa.me/1234567890"
+                href="https://wa.me/0740482490"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-whatsapp w-full justify-center text-lg"

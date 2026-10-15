@@ -113,7 +113,13 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
+        
+        {/* අලුතින් එකතු කළ Region Label සහ Attributes */}
+        <label htmlFor="regionSelect" className="sr-only">Select Region</label>
         <select
+          id="regionSelect"
+          name="region"
+          autoComplete="off"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
           className="input-field sm:w-48"
@@ -126,7 +132,12 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         </select>
         
         <div className="flex-1 relative">
+          {/* අලුතින් එකතු කළ Player ID Label සහ Attributes */}
+          <label htmlFor="uidInput" className="sr-only">Player ID</label>
           <input
+            id="uidInput"
+            name="uid"
+            autoComplete="off"
             type="text"
             value={uid}
             onChange={(e) => {
