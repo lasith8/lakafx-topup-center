@@ -16,18 +16,16 @@ export default function PlayerCheck() {
         setError(null);
         setPlayerData(null);
 
-        try {
-            // Vercel Rewrite Proxy එක හරහා Chamindu API එකට කතා කිරීම
-            // පරණ එක: fetch(`/api/chamindu/stalk?...`)
-// අලුත් එක:
-const response = await fetch(`/proxy/chamindu/stalk?uid=${playerId}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
+       try {
+            // UID එක හරියට URL එකට යන විදිහට Template literal එක හදාගැනීම
+            const response = await fetch(`/proxy/chamindu/stalk?uid=${encodeURIComponent(playerId)}&api_key=chama_api_c9874780f49a6f66d0e3fb70eb9acecb`);
             const result = await response.json();
 
-            // API එකෙන් status: true ආවොත් data ටික ගන්නවා
-            if (result.status === true && result.data) {
-                setPlayerData(result.data);
+            // API එකෙන් status: true ආවොත් හෝ data තිබුණොත්
+            if (result && (result.status === true || result.data)) {
+                setPlayerData(result.data || result);
             } else {
-                setError("Player ID එක වැරදියි හෝ ගිණුමක් නැත.");
+                setError(result.detail || "Player ID එක වැරදියි හෝ ගිණුමක් නැත.");
             }
         } catch (err) {
             setError("සර්වර් දෝෂයක්. කරුණාකර නැවත උත්සාහ කරන්න.");
