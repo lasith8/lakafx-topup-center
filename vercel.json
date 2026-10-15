@@ -7,6 +7,10 @@
     {
       "source": "/api/render/:path*",
       "destination": "https://free-ff-api-src-5plp.onrender.com/api/v1/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
