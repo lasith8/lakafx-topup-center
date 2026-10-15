@@ -32,7 +32,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
       return
     }
 
-    // Validate UID is numeric
     if (!/^\d+$/.test(uid.trim())) {
       setError('Player ID must contain only numbers')
       return
@@ -44,7 +43,7 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
     setApiResponse(null)
 
     try {
-      // කෙලින්ම API එකට යන්නේ නැතුව allorigins proxy එක හරහා යැවීම
+      // allorigins proxy එක භාවිතයෙන්
       const targetUrl = `https://free-ff-api-src-5plp.onrender.com/api/v1/account?region=${region}&uid=${uid.trim()}`;
       const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`, {
         method: 'GET',
@@ -53,38 +52,29 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         },
       })
       
-      // Log the raw response for debugging
-      console.log('API Response Status:', response.status)
-      
-      // Try to parse JSON regardless of status
       let data
       try {
         data = await response.json()
       } catch (parseError) {
-        console.error('JSON Parse Error:', parseError)
         setError('Invalid response from server. Please try again later.')
         setLoading(false)
         return
       }
       
-      console.log('API Response Data:', data)
       setApiResponse(data)
 
-      // Check for API error response
       if (data.error) {
         setError(data.message || 'Player not found. Please check the ID and region.')
         setLoading(false)
         return
       }
 
-      // Check if basicInfo exists (the actual player data)
       if (!data.basicInfo || !data.basicInfo.accountId) {
         setError('Player not found. Please check the ID and region.')
         setLoading(false)
         return
       }
 
-      // Player found!
       setPlayerData(data)
       
       if (onVerifiedPlayer) {
@@ -96,7 +86,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         })
       }
     } catch (err) {
-      console.error('Network/Error:', err)
       setError('Network error. Please check your internet connection and try again.')
     } finally {
       setLoading(false)
@@ -112,8 +101,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
-        
-        {/* අලුතින් එකතු කළ Region Label සහ Attributes */}
         <label htmlFor="regionSelect" className="sr-only">Select Region</label>
         <select
           id="regionSelect"
@@ -131,7 +118,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         </select>
         
         <div className="flex-1 relative">
-          {/* අලුතින් එකතු කළ Player ID Label සහ Attributes */}
           <label htmlFor="uidInput" className="sr-only">Player ID</label>
           <input
             id="uidInput"
@@ -140,7 +126,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
             type="text"
             value={uid}
             onChange={(e) => {
-              // Only allow numbers
               const value = e.target.value.replace(/\D/g, '')
               setUid(value)
               setError('')
@@ -170,7 +155,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
         </button>
       </div>
 
-      {/* Tips for users */}
       {!playerData && !error && !loading && (
         <div className="flex items-start gap-2 p-3 bg-neon-blue/5 border border-neon-blue/20 rounded-xl">
           <AlertTriangle className="w-4 h-4 text-neon-blue flex-shrink-0 mt-0.5" />
@@ -192,9 +176,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
             <XCircle className="w-5 h-5 flex-shrink-0" />
             <div>
               <p>{error}</p>
-              {apiResponse && (
-                <p className="text-xs mt-1 opacity-70">Response: {JSON.stringify(apiResponse).substring(0, 100)}...</p>
-              )}
             </div>
           </motion.div>
         )}
@@ -239,14 +220,6 @@ const PlayerVerifier = ({ onVerifiedPlayer }) => {
                   {playerData.basicInfo?.liked?.toLocaleString() || 'N/A'}
                 </p>
               </div>
-            </div>
-            
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <p className="text-gray-400 text-xs text-center">
-                Region: <span className="text-neon-blue">{region}</span> | 
-                UID: <span className="text-neon-blue">{uid}</span> | 
-                Account ID: <span className="text-neon-blue">{playerData.basicInfo?.accountId}</span>
-              </p>
             </div>
           </motion.div>
         )}
