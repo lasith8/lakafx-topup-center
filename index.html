@@ -18,7 +18,68 @@
     <title>LAKAFX TOP UP CENTER | Fast & Secure Gaming Top Up</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Top-up Form -->
+    <div class="topup-container">
+        <h2>Free Fire Auto Top-up</h2>
+        
+        <label>Player ID එක:</label>
+        <input type="text" id="playerId" placeholder="උදා: 123456789" required>
+        
+        <label>ඩයමන්ඩ් පැකේජය:</label>
+        <select id="productId">
+            <option value="cmt5n...">100 Diamonds - Rs. 383.00</option>
+            <option value="cmt5m...">25 Diamonds - Rs. 150.00</option>
+        </select>
+
+        <button onclick="sendTopUpRequest()">Top-up කරන්න</button>
+        
+        <p id="statusMessage" style="color: blue;"></p>
+    </div>
+
+    <!-- JavaScript Code -->
+    <script>
+        async function sendTopUpRequest() {
+            const playerId = document.getElementById('playerId').value;
+            const productId = document.getElementById('productId').value;
+            const statusText = document.getElementById('statusMessage');
+
+            if (!playerId) {
+                statusText.innerText = "කරුණාකර Player ID එක ඇතුළත් කරන්න!";
+                return;
+            }
+
+            statusText.innerText = "කරුණාකර රැඳී සිටින්න. Order එක යවමින් පවතී...";
+
+            try {
+                const response = await fetch('http://localhost:3000/api/place-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        gameId: 'cmt5m...', // Free Fire Game ID
+                        productId: productId,
+                        playerId: playerId,
+                        ezCashTransactionId: 'TEST-EZ-' + Math.floor(Math.random() * 1000)
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusText.style.color = "green";
+                    statusText.innerText = "✅ සාර්ථකයි! ඩයමන්ඩ් යවන ලදී. (Player: " + (result.orderDetails?.nickname || playerId) + ")";
+                } else {
+                    statusText.style.color = "red";
+                    statusText.innerText = "❌ දෝෂයකි: " + result.message;
+                }
+
+            } catch (error) {
+                console.error(error);
+                statusText.style.color = "red";
+                statusText.innerText = "❌ සර්වර් එකට සම්බන්ධ වීමට නොහැක!";
+            }
+        }
+    </script>
   </body>
 </html>
