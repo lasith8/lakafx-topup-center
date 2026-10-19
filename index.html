@@ -133,3 +133,196 @@
             background-color: #475569;
             color: #94a3b8;
             cursor: not-allowed;
+        }
+
+        #playerNameDisplay {
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        .ezcash-box {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid #eab308;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .ezcash-box p {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        .ezcash-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #eab308;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        #statusMessage {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>LAKAFX</h1>
+            <p>Fast & Secure Free Fire Top-up</p>
+        </div>
+
+        <!-- Step 1: Player ID -->
+        <div class="input-group">
+            <div class="step-title">1. Player ID ඇතුළත් කරන්න</div>
+            <div class="flex-row">
+                <input type="text" id="playerId" placeholder="උදා: 123456789" required>
+                <button class="btn-verify" onclick="verifyPlayer()">පරීක්ෂා කරන්න</button>
+            </div>
+        </div>
+        <div id="playerNameDisplay"></div>
+
+        <!-- Step 2: Package Selection -->
+        <div class="input-group">
+            <div class="step-title">2. පැකේජය තෝරන්න</div>
+            <select id="productId">
+                <option value="07aa53d6-d881-4620-8979-943abc51a09e">25 Diamonds - Rs. 85.00</option>
+                <option value="0409874e-5f89-4fe9-aa91-dee4c61ca656">100 Diamonds - Rs. 325.00</option>
+                <option value="e9fb692e-5058-416e-a439-1be1dffa6547">310 Diamonds - Rs. 950.00</option>
+                <option value="53dc2450-6733-4b31-9813-f281a22d80a9">520 Diamonds - Rs. 1600.00</option>
+                <option value="8e084f50-938b-4d67-a5a3-47d056fd465e">Weekly Lite Membership - Rs. 130.00</option>
+                <option value="b543e724-c50c-46a5-b2ca-48df35540777">Weekly Membership - Rs. 580.00</option>
+                <option value="06cd678f-ef27-4350-91e6-9af9e451b2ad">Monthly Membership - Rs. 2900.00</option>
+            </select>
+        </div>
+
+        <!-- Step 3: Payment -->
+        <div class="input-group">
+            <div class="step-title">3. මුදල් ගෙවීම (eZ Cash)</div>
+            <div class="ezcash-box">
+                <p>පහත අංකයට මුදල් යවා ලැබෙන <strong>Reference අංකය</strong> ඇතුළත් කරන්න.</p>
+                <div class="ezcash-number">0740482490</div>
+            </div>
+            <input type="text" id="referenceNo" placeholder="eZ Cash Reference අංකය (උදා: 1234567890)">
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn-pay" onclick="sendTopUpRequest()" id="payButton" disabled>Top-up කරන්න</button>
+        
+        <!-- Status Message -->
+        <div id="statusMessage"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000'; 
+        const GAME_ID = 'free-fire';
+
+        // 1. පාරිභෝගිකයාගේ නම සෙවීම
+        async function verifyPlayer() {
+            const playerId = document.getElementById('playerId').value;
+            const nameDisplay = document.getElementById('playerNameDisplay');
+            const payButton = document.getElementById('payButton');
+            const statusText = document.getElementById('statusMessage');
+
+            if (!playerId) {
+                statusText.style.color = "#ef4444"; // Red
+                statusText.innerText = "කරුණාකර පළමුව Player ID එක ඇතුළත් කරන්න!";
+                return;
+            }
+
+            statusText.style.color = var(--text-muted);
+            statusText.innerText = "නම සොයමින් පවතී...";
+            nameDisplay.style.display = "none";
+            payButton.disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/api/verify-player`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: playerId })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusText.innerText = "";
+                    if (result.checked === false) {
+                        nameDisplay.innerText = "⚠️ " + result.message;
+                        nameDisplay.style.color = "#fbbf24"; 
+                        nameDisplay.style.backgroundColor = "rgba(251, 191, 36, 0.1)";
+                    } else {
+                        nameDisplay.innerText = "✓ Player Name: " + result.nickname;
+                        nameDisplay.style.color = "#10b981"; 
+                        nameDisplay.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
+                    }
+                    nameDisplay.style.display = "block";
+                    payButton.disabled = false;
+                } else {
+                    statusText.style.color = "#ef4444";
+                    statusText.innerText = "❌ දෝෂයකි: " + result.message;
+                }
+            } catch (error) {
+                statusText.style.color = "#ef4444";
+                statusText.innerText = "❌ සර්වර් එකට සම්බන්ධ වීමට නොහැක!";
+            }
+        }
+
+        // 2. ඩයමන්ඩ් යැවීම සහ ගෙවීම් පරීක්ෂාව
+        async function sendTopUpRequest() {
+            const playerId = document.getElementById('playerId').value;
+            const productId = document.getElementById('productId').value;
+            const referenceNo = document.getElementById('referenceNo').value;
+            const statusText = document.getElementById('statusMessage');
+
+            if (!referenceNo) {
+                statusText.style.color = "#fbbf24"; // Yellow warning
+                statusText.innerText = "කරුණාකර eZ Cash Reference අංකය ඇතුළත් කරන්න!";
+                return;
+            }
+
+            statusText.style.color = "#38bdf8"; // Light blue
+            statusText.innerText = "කරුණාකර රැඳී සිටින්න. Order එක යවමින් පවතී...";
+
+            try {
+                const response = await fetch(`${API_URL}/api/place-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        gameId: GAME_ID,
+                        productId: productId,
+                        playerId: playerId,
+                        reference: referenceNo
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusText.style.color = "#10b981"; // Green
+                    statusText.innerText = "✅ " + result.message;
+                } else {
+                    statusText.style.color = "#ef4444"; // Red
+                    statusText.innerText = "❌ දෝෂයකි: " + result.message;
+                }
+
+            } catch (error) {
+                statusText.style.color = "#ef4444";
+                statusText.innerText = "❌ සර්වර් එකට සම්බන්ධ වීමට නොහැක!";
+            }
+        }
+    </script>
+</body>
+</html>
