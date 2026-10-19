@@ -227,7 +227,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:3000'; 
+        const API_URL = 'https://topup-backend-ruddy.vercel.app';
         const GAME_ID = 'free-fire';
 
         // 1. පාරිභෝගිකයාගේ නම සෙවීම
@@ -238,12 +238,12 @@
             const statusText = document.getElementById('statusMessage');
 
             if (!playerId) {
-                statusText.style.color = "#ef4444"; // Red
+                statusText.style.color = "#ef4444"; 
                 statusText.innerText = "කරුණාකර පළමුව Player ID එක ඇතුළත් කරන්න!";
                 return;
             }
 
-            statusText.style.color = var(--text-muted);
+            statusText.style.color = "#94a3b8"; // මෙතන තමයි කලින් දෝෂය තිබුණේ
             statusText.innerText = "නම සොයමින් පවතී...";
             nameDisplay.style.display = "none";
             payButton.disabled = true;
@@ -288,12 +288,12 @@
             const statusText = document.getElementById('statusMessage');
 
             if (!referenceNo) {
-                statusText.style.color = "#fbbf24"; // Yellow warning
+                statusText.style.color = "#fbbf24"; 
                 statusText.innerText = "කරුණාකර eZ Cash Reference අංකය ඇතුළත් කරන්න!";
                 return;
             }
 
-            statusText.style.color = "#38bdf8"; // Light blue
+            statusText.style.color = "#38bdf8"; 
             statusText.innerText = "කරුණාකර රැඳී සිටින්න. Order එක යවමින් පවතී...";
 
             try {
@@ -311,10 +311,10 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    statusText.style.color = "#10b981"; // Green
+                    statusText.style.color = "#10b981"; 
                     statusText.innerText = "✅ " + result.message;
                 } else {
-                    statusText.style.color = "#ef4444"; // Red
+                    statusText.style.color = "#ef4444"; 
                     statusText.innerText = "❌ දෝෂයකි: " + result.message;
                 }
 
