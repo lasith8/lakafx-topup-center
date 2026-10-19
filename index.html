@@ -1,233 +1,400 @@
 <!doctype html>
 <html lang="si">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LAKAFX TOP UP CENTER | Free Fire Auto Top-up</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #f59e0b; /* Gold/Amber for Gaming */
-            --primary-hover: #d97706;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b16" />
+  <meta name="description" content="LAKAFX TOP UP CENTER — Free Fire top-up orders for gamers in Sri Lanka." />
+  <title>LAKAFX TOP UP CENTER | Free Fire Top-up</title>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-        .container {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 450px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            padding: 30px;
-            border: 1px solid var(--border-color);
-        }
+  <style>
+    :root {
+      color-scheme: dark;
+      --primary: #22d3ee;
+      --primary-strong: #06b6d4;
+      --purple: #8b5cf6;
+      --bg: #070b16;
+      --panel: rgba(15, 23, 42, .78);
+      --panel-solid: #111a2e;
+      --text: #f8fafc;
+      --muted: #9aa9bf;
+      --border: rgba(148, 163, 184, .18);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #fb7185;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .38);
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 36px 18px;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: Inter, Poppins, sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 12%, rgba(34, 211, 238, .14), transparent 36%),
+        radial-gradient(ellipse at 90% 82%, rgba(139, 92, 246, .17), transparent 38%),
+        linear-gradient(145deg, #060914 0%, #0b1223 52%, #080b18 100%);
+    }
 
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    body::before, body::after {
+      position: fixed;
+      z-index: -1;
+      content: "";
+      width: 280px;
+      height: 280px;
+      border: 1px solid rgba(34, 211, 238, .12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    body::before { top: -130px; right: -80px; box-shadow: 0 0 90px rgba(34,211,238,.08); }
+    body::after { bottom: -160px; left: -100px; border-color: rgba(139,92,246,.16); }
 
-        .header p {
-            margin: 5px 0 0;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+    .container {
+      position: relative;
+      isolation: isolate;
+      width: min(100%, 520px);
+      padding: clamp(22px, 5vw, 36px);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, .22);
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(17, 26, 46, .94), rgba(9, 14, 29, .96));
+      box-shadow: var(--shadow), 0 0 0 1px rgba(34, 211, 238, .035) inset;
+      backdrop-filter: blur(22px);
+    }
+    .container::before {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--primary), var(--purple), transparent);
+      opacity: .9;
+    }
 
-        .step-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #38bdf8;
-            text-transform: uppercase;
-        }
+    .brand-mark {
+      display: inline-grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      margin-bottom: 13px;
+      border: 1px solid rgba(34, 211, 238, .42);
+      border-radius: 18px;
+      color: #e6fcff;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(145deg, rgba(34,211,238,.2), rgba(139,92,246,.2));
+      box-shadow: 0 0 30px rgba(34,211,238,.12), inset 0 1px rgba(255,255,255,.1);
+    }
+    .header {
+      position: relative;
+      margin-bottom: 27px;
+      padding-bottom: 24px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      color: #9eeefa;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+      content: "";
+    }
+    .header h1 {
+      margin: 0;
+      font-size: clamp(27px, 7vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -1.4px;
+      text-transform: uppercase;
+      background: linear-gradient(100deg, #fff 15%, #67e8f9 55%, #a78bfa 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .header p {
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 17px;
+    }
+    .trust-chip {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, .68);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
+    .input-group { margin-bottom: 23px; }
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .15px;
+    }
+    .step-number {
+      display: grid;
+      width: 27px;
+      height: 27px;
+      flex: 0 0 27px;
+      place-items: center;
+      border: 1px solid rgba(34, 211, 238, .28);
+      border-radius: 9px;
+      color: #a5f3fc;
+      background: rgba(34, 211, 238, .09);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .flex-row { display: flex; gap: 9px; }
+    input[type="text"], select {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      padding: 13px 14px;
+      border: 1px solid rgba(148, 163, 184, .24);
+      border-radius: 12px;
+      outline: none;
+      color: var(--text);
+      background: rgba(5, 10, 22, .72);
+      font: 500 13px Inter, Poppins, sans-serif;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    input::placeholder { color: #64748b; }
+    input[type="text"]:focus, select:focus {
+      border-color: rgba(34, 211, 238, .78);
+      background: rgba(5, 10, 22, .94);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, .1);
+    }
+    select { cursor: pointer; }
+    select option { color: #f8fafc; background: #111a2e; }
 
-        .flex-row {
-            display: flex;
-            gap: 10px;
-        }
+    button {
+      min-height: 46px;
+      padding: 12px 15px;
+      border: 0;
+      border-radius: 12px;
+      font: 700 12px Inter, Poppins, sans-serif;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, opacity .2s ease;
+    }
+    button:focus-visible {
+      outline: 2px solid #a5f3fc;
+      outline-offset: 3px;
+    }
+    .btn-verify {
+      flex: 0 0 auto;
+      color: #06111d;
+      white-space: nowrap;
+      background: linear-gradient(135deg, #67e8f9, #22d3ee);
+      box-shadow: 0 7px 20px rgba(34, 211, 238, .14);
+    }
+    .btn-verify:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(34,211,238,.23); }
+    .ezcash-box {
+      position: relative;
+      margin-bottom: 12px;
+      padding: 17px;
+      overflow: hidden;
+      text-align: center;
+      border: 1px solid rgba(251, 191, 36, .3);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(251,191,36,.12), transparent 48%),
+        linear-gradient(135deg, rgba(30,41,59,.7), rgba(10,16,31,.9));
+    }
+    .payment-label {
+      display: inline-block;
+      margin-bottom: 9px;
+      color: #fcd34d;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .ezcash-box p {
+      max-width: 300px;
+      margin: 0 auto 12px;
+      color: #b8c5d8;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .ezcash-number {
+      color: #fde68a;
+      font-size: clamp(22px, 6vw, 27px);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 22px rgba(251,191,36,.12);
+    }
+    .payment-note {
+      margin: 10px 0 0;
+      color: #8798af;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+    .btn-pay {
+      position: relative;
+      width: 100%;
+      min-height: 54px;
+      margin-top: 2px;
+      color: #04131b;
+      background: linear-gradient(100deg, #67e8f9 0%, #22d3ee 45%, #a78bfa 120%);
+      box-shadow: 0 12px 28px rgba(34, 211, 238, .17);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+    .btn-pay:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(34,211,238,.25); }
+    .btn-pay:disabled { color: #7c8ca3; background: #263348; box-shadow: none; cursor: not-allowed; opacity: .85; }
+    #playerNameDisplay {
+      display: none;
+      margin: -8px 0 21px;
+      padding: 11px 13px;
+      border: 1px solid rgba(52, 211, 153, .2);
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+    #statusMessage {
+      min-height: 20px;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+    .footer-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: #718198;
+      font-size: 10px;
+      text-align: center;
+    }
+    .footer-note span { color: #a5f3fc; }
+    .fine-print {
+      margin: 10px 0 0;
+      color: #617189;
+      font-size: 10px;
+      line-height: 1.6;
+      text-align: center;
+    }
 
-        input[type="text"], select {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input[type="text"]:focus, select:focus {
-            border-color: var(--primary);
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .btn-verify {
-            background-color: #3b82f6;
-            color: white;
-            white-space: nowrap;
-        }
-
-        .btn-verify:hover {
-            background-color: #2563eb;
-        }
-
-        .btn-pay {
-            background-color: var(--primary);
-            color: #000;
-            width: 100%;
-            font-size: 16px;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-pay:hover:not(:disabled) {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-pay:disabled {
-            background-color: #475569;
-            color: #94a3b8;
-            cursor: not-allowed;
-        }
-
-        #playerNameDisplay {
-            margin-top: -10px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            font-weight: 600;
-            display: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            background-color: rgba(16, 185, 129, 0.1);
-        }
-
-        .ezcash-box {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border: 1px solid #eab308;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .ezcash-box p {
-            margin: 0 0 10px 0;
-            font-size: 12px;
-            color: #cbd5e1;
-        }
-
-        .ezcash-number {
-            font-size: 22px;
-            font-weight: 700;
-            color: #eab308;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        #statusMessage {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-    </style>
+    @media (max-width: 420px) {
+      body { padding: 18px 10px; }
+      .container { padding: 22px 17px; border-radius: 22px; }
+      .flex-row { gap: 7px; }
+      .btn-verify { padding: 11px 10px; font-size: 11px; }
+      input[type="text"], select { padding: 12px 11px; font-size: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
+  <main class="container">
+    <header class="header">
+      <div class="brand-mark" aria-hidden="true">LX</div>
+      <div class="eyebrow">Sri Lankan Gaming Top-up</div>
+      <h1>LAKAFX</h1>
+      <p>TOP UP CENTER<br />Fast &amp; Secure Free Fire Top-up</p>
+      <div class="trust-row" aria-label="Service highlights">
+        <span class="trust-chip">⚡ Fast Service</span>
+        <span class="trust-chip">🛡️ Secure Orders</span>
+        <span class="trust-chip">🇱🇰 Sri Lanka</span>
+      </div>
+    </header>
 
-    <div class="container">
-        <div class="header">
-            <h1>LAKAFX</h1>
-            <p>Fast & Secure Free Fire Top-up</p>
-        </div>
+    <section class="input-group" aria-labelledby="playerStep">
+      <div class="step-title" id="playerStep"><span class="step-number">1</span> Player ID ඇතුළත් කරන්න</div>
+      <div class="flex-row">
+        <input type="text" id="playerId" placeholder="උදා: 123456789" inputmode="numeric" autocomplete="off" aria-label="Free Fire Player ID" required />
+        <button type="button" class="btn-verify" onclick="verifyPlayer()">පරීක්ෂා කරන්න</button>
+      </div>
+    </section>
+    <div id="playerNameDisplay" role="status" aria-live="polite"></div>
 
-        <!-- Step 1: Player ID -->
-        <div class="input-group">
-            <div class="step-title">1. Player ID ඇතුළත් කරන්න</div>
-            <div class="flex-row">
-                <input type="text" id="playerId" placeholder="උදා: 123456789" required>
-                <button class="btn-verify" onclick="verifyPlayer()">පරීක්ෂා කරන්න</button>
-            </div>
-        </div>
-        <div id="playerNameDisplay"></div>
+    <section class="input-group" aria-labelledby="packageStep">
+      <div class="step-title" id="packageStep"><span class="step-number">2</span> පැකේජය තෝරන්න</div>
+      <select id="productId" aria-label="Top-up package">
+        <option value="07aa53d6-d881-4620-8979-943abc51a09e">25 Diamonds — Rs. 85.00</option>
+        <option value="0409874e-5f89-4fe9-aa91-dee4c61ca656">100 Diamonds — Rs. 325.00</option>
+        <option value="e9fb692e-5058-416e-a439-1be1dffa6547">310 Diamonds — Rs. 950.00</option>
+        <option value="53dc2450-6733-4b31-9813-f281a22d80a9">520 Diamonds — Rs. 1600.00</option>
+        <option value="8e084f50-938b-4d67-a5a3-47d056fd465e">Weekly Lite Membership — Rs. 130.00</option>
+        <option value="b543e724-c50c-46a5-b2ca-48df35540777">Weekly Membership — Rs. 580.00</option>
+        <option value="06cd678f-ef27-4350-91e6-9af9e451b2ad">Monthly Membership — Rs. 2900.00</option>
+      </select>
+    </section>
 
-        <!-- Step 2: Package Selection -->
-        <div class="input-group">
-            <div class="step-title">2. පැකේජය තෝරන්න</div>
-            <select id="productId">
-                <option value="07aa53d6-d881-4620-8979-943abc51a09e">25 Diamonds - Rs. 85.00</option>
-                <option value="0409874e-5f89-4fe9-aa91-dee4c61ca656">100 Diamonds - Rs. 325.00</option>
-                <option value="e9fb692e-5058-416e-a439-1be1dffa6547">310 Diamonds - Rs. 950.00</option>
-                <option value="53dc2450-6733-4b31-9813-f281a22d80a9">520 Diamonds - Rs. 1600.00</option>
-                <option value="8e084f50-938b-4d67-a5a3-47d056fd465e">Weekly Lite Membership - Rs. 130.00</option>
-                <option value="b543e724-c50c-46a5-b2ca-48df35540777">Weekly Membership - Rs. 580.00</option>
-                <option value="06cd678f-ef27-4350-91e6-9af9e451b2ad">Monthly Membership - Rs. 2900.00</option>
-            </select>
-        </div>
+    <section class="input-group" aria-labelledby="paymentStep">
+      <div class="step-title" id="paymentStep"><span class="step-number">3</span> මුදල් ගෙවීම (eZ Cash)</div>
+      <div class="ezcash-box">
+        <div class="payment-label">eZ Cash Payment</div>
+        <p>පහත අංකයට මුදල් යවා ලැබෙන <strong>Reference අංකය</strong> ඇතුළත් කරන්න.</p>
+        <div class="ezcash-number">0740482490</div>
+      </div>
+      <input type="text" id="referenceNo" placeholder="eZ Cash Reference අංකය (උදා: 1234567890)" autocomplete="off" aria-label="eZ Cash reference number" />
+      <p class="payment-note">Order එක යැවීමට පෙර Player ID, package එක සහ payment details නිවැරදි බව පරීක්ෂා කරන්න.</p>
+    </section>
 
-        <!-- Step 3: Payment -->
-        <div class="input-group">
-            <div class="step-title">3. මුදල් ගෙවීම (eZ Cash)</div>
-            <div class="ezcash-box">
-                <p>පහත අංකයට මුදල් යවා ලැබෙන <strong>Reference අංකය</strong> ඇතුළත් කරන්න.</p>
-                <div class="ezcash-number">0740482490</div>
-            </div>
-            <input type="text" id="referenceNo" placeholder="eZ Cash Reference අංකය (උදා: 1234567890)">
-        </div>
+    <button type="button" class="btn-pay" onclick="sendTopUpRequest()" id="payButton" disabled>Top-up කරන්න&nbsp; →</button>
+    <div id="statusMessage" role="status" aria-live="polite"></div>
 
-        <!-- Submit Button -->
-        <button class="btn-pay" onclick="sendTopUpRequest()" id="payButton" disabled>Top-up කරන්න</button>
-        
-        <!-- Status Message -->
-        <div id="statusMessage"></div>
-    </div>
+    <footer class="footer-note"><span>◆</span> LAKAFX TOP UP CENTER <span>◆</span></footer>
+    <p class="fine-print">Player ID එක නිවැරදිදැයි නැවත තහවුරු කරන්න. Order success එක server response එක මත රඳා පවතී.</p>
+  </main>
 
-    <script>
-        const API_URL = 'https://topup-backend-ruddy.vercel.app';
+  <script>
+const API_URL = 'https://topup-backend-ruddy.vercel.app';
         const GAME_ID = 'free-fire';
 
         // 1. පාරිභෝගිකයාගේ නම සෙවීම
@@ -323,6 +490,6 @@
                 statusText.innerText = "❌ සර්වර් එකට සම්බන්ධ වීමට නොහැක!";
             }
         }
-    </script>
+  </script>
 </body>
 </html>
