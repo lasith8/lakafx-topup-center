@@ -1,85 +1,135 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="LAKAFX TOP UP CENTER - Fast & Secure Gaming Top Up for Free Fire, PUBG, Mobile Legends, CODM. Instant delivery, best prices, trusted by thousands of gamers." />
-    <meta name="keywords" content="Free Fire top up, PUBG UC, Mobile Legends diamonds, CODM CP, game top up, LAKAFX, gaming recharge, Sri Lanka" />
-    <meta name="author" content="LAKAFX TOP UP CENTER" />
-    <meta name="theme-color" content="#050816" />
-    <meta property="og:title" content="LAKAFX TOP UP CENTER - Gaming Top Up" />
-    <meta property="og:description" content="Fast & Secure Gaming Top Up for Free Fire, PUBG, Mobile Legends, CODM" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <title>LAKAFX TOP UP CENTER | Fast & Secure Gaming Top Up</title>
-  </head>
-  <body>
-    <!-- Top-up Form -->
+    <!-- ඔයාගේ අනෙකුත් meta tags සහ CSS links මෙහි ඇතැයි සලකන්න -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050816; color: white; padding: 20px; }
+        .topup-container { background-color: #1a1f38; padding: 20px; border-radius: 10px; max-width: 400px; margin: 0 auto; }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+        button { background-color: #2563eb; color: white; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #1d4ed8; }
+        #playerNameDisplay { color: #10b981; font-weight: bold; margin-top: -5px; margin-bottom: 15px; display: none; }
+    </style>
+</head>
+<body>
+
     <div class="topup-container">
         <h2>Free Fire Auto Top-up</h2>
         
         <label>Player ID එක:</label>
-        <input type="text" id="playerId" placeholder="උදා: 123456789" required>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="playerId" placeholder="උදා: 123456789" required style="flex-grow: 1;">
+            <!-- නම පරික්ෂා කරන බොත්තම -->
+            <button onclick="verifyPlayer()" style="width: auto; padding: 0 15px;">Verify</button>
+        </div>
+        
+        <!-- නම පෙන්වන තැන -->
+        <div id="playerNameDisplay"></div>
         
         <label>ඩයමන්ඩ් පැකේජය:</label>
-        <select id="productId">
-            <option value="cmt5n...">100 Diamonds - Rs. 383.00</option>
-            <option value="cmt5m...">25 Diamonds - Rs. 150.00</option>
-        </select>
-
-        <button onclick="sendTopUpRequest()">Top-up කරන්න</button>
+<select id="productId">
+    <!-- නියම Package IDs ඇතුළත් කර ඇත -->
+    <option value="07aa53d6-d881-4620-8979-943abc51a09e">25 Diamonds - Rs. 85.00</option>
+    <option value="0409874e-5f89-4fe9-aa91-dee4c61ca656">100 Diamonds - Rs. 325.00</option>
+    <option value="e9fb692e-5058-416e-a439-1be1dffa6547">310 Diamonds - Rs. 950.00</option>
+    <option value="53dc2450-6733-4b31-9813-f281a22d80a9">520 Diamonds - Rs. 1600.00</option>
+    
+    <!-- Memberships -->
+    <option value="8e084f50-938b-4d67-a5a3-47d056fd465e">Weekly Lite Membership - Rs. 130.00</option>
+    <option value="b543e724-c50c-46a5-b2ca-48df35540777">Weekly Membership - Rs. 580.00</option>
+    <option value="06cd678f-ef27-4350-91e6-9af9e451b2ad">Monthly Membership - Rs. 2900.00</option>
+</select>
+        <button onclick="sendTopUpRequest()" id="payButton" disabled style="background-color: gray;">Top-up කරන්න</button>
         
-        <p id="statusMessage" style="color: blue;"></p>
+        <p id="statusMessage"></p>
     </div>
 
-    <!-- JavaScript Code -->
     <script>
+        const API_URL = 'http://localhost:3000'; // ඔයාගේ ලෝකල් සර්වර් එක
+        const GAME_ID = 'freefire'; // ShellTopUp එකේ නියම Game ID එක (අනුමානයක්)
+
+        // 1. Player ID එකෙන් නම සෙවීම
+        async function verifyPlayer() {
+            const playerId = document.getElementById('playerId').value;
+            const nameDisplay = document.getElementById('playerNameDisplay');
+            const payButton = document.getElementById('payButton');
+            const statusText = document.getElementById('statusMessage');
+
+            if (!playerId) {
+                statusText.style.color = "red";
+                statusText.innerText = "කරුණාකර පළමුව Player ID එක ඇතුළත් කරන්න!";
+                return;
+            }
+
+            statusText.innerText = "නම සොයමින් පවතී...";
+            nameDisplay.style.display = "none";
+            payButton.disabled = true;
+            payButton.style.backgroundColor = "gray";
+
+            try {
+                const response = await fetch(`${API_URL}/api/verify-player`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: playerId, gameId: GAME_ID })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // නම හරි නම්, පෙන්නලා Top-up බොත්තම on කරනවා
+                    statusText.innerText = "";
+                    nameDisplay.innerText = "✓ Player Name: " + result.nickname;
+                    nameDisplay.style.display = "block";
+                    payButton.disabled = false;
+                    payButton.style.backgroundColor = "#2563eb";
+                } else {
+                    statusText.style.color = "red";
+                    statusText.innerText = "❌ දෝෂයකි: " + result.message;
+                }
+            } catch (error) {
+                statusText.style.color = "red";
+                statusText.innerText = "❌ සර්වර් දෝෂයකි. කරුණාකර නැවත උත්සාහ කරන්න.";
+            }
+        }
+
+        // 2. ඩයමන්ඩ් යැවීම
         async function sendTopUpRequest() {
             const playerId = document.getElementById('playerId').value;
             const productId = document.getElementById('productId').value;
             const statusText = document.getElementById('statusMessage');
 
-            if (!playerId) {
-                statusText.innerText = "කරුණාකර Player ID එක ඇතුළත් කරන්න!";
-                return;
-            }
-
+            statusText.style.color = "white";
             statusText.innerText = "කරුණාකර රැඳී සිටින්න. Order එක යවමින් පවතී...";
 
             try {
-                const response = await fetch('http://localhost:3000/api/place-order', {
+                const response = await fetch(`${API_URL}/api/place-order`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        gameId: 'cmt5m...', // Free Fire Game ID
+                        gameId: GAME_ID,
                         productId: productId,
-                        playerId: playerId,
-                        ezCashTransactionId: 'TEST-EZ-' + Math.floor(Math.random() * 1000)
+                        playerId: playerId
                     })
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    statusText.style.color = "green";
-                    statusText.innerText = "✅ සාර්ථකයි! ඩයමන්ඩ් යවන ලදී. (Player: " + (result.orderDetails?.nickname || playerId) + ")";
+                    statusText.style.color = "#10b981"; // Green
+                    statusText.innerText = "✅ " + result.message;
                 } else {
                     statusText.style.color = "red";
                     statusText.innerText = "❌ දෝෂයකි: " + result.message;
                 }
 
             } catch (error) {
-                console.error(error);
                 statusText.style.color = "red";
                 statusText.innerText = "❌ සර්වර් එකට සම්බන්ධ වීමට නොහැක!";
             }
         }
     </script>
-  </body>
+</body>
 </html>
